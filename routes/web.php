@@ -6,8 +6,8 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return redirect()->route('posts.index');
+Route::get("/", function () {
+    return redirect()->route("posts.index");
 });
 
 // Route::resource('posts', PostController::class);
@@ -15,8 +15,8 @@ Route::get('/', function () {
 
 // Egyszerre:
 Route::resources([
-    'posts' => PostController::class,
-    'categories' => CategoryController::class,
+    "posts" => PostController::class,
+    "categories" => CategoryController::class,
 ]);
 
 // Route::get('/posts', function () {

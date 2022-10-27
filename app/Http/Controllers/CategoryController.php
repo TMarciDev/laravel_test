@@ -27,8 +27,8 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view('categories.create', [
-            'styles' => Category::$styles,
+        return view("categories.create", [
+            "styles" => Category::$styles,
         ]);
     }
 
@@ -42,10 +42,10 @@ class CategoryController extends Controller
     {
         $validated = $request->validate(
             [
-                'name' => 'required|min:3',
+                "name" => "required|min:3",
                 //'style' => 'required|in:primary,secondary,danger,warning,info,dark',
-                'style' => [
-                    'required',
+                "style" => [
+                    "required",
                     //'in:primary,secondary,danger,warning,info,dark'
                     Rule::in(Category::$styles),
                 ],
@@ -56,17 +56,17 @@ class CategoryController extends Controller
                 //'required' => 'Field is required',
 
                 // Ilyenkor csak a name mezőre vonatkozik
-                'name.required' => 'Name is required',
+                "name.required" => "Name is required",
             ]
         );
 
         // Ide már csak akkor jut el a vezérlés, hogyha a validáció sikeres volt
         Category::factory()->create($validated);
 
-        Session::flash('category_created', $validated['name']);
+        Session::flash("category_created", $validated["name"]);
 
         // return redirect()->route('categories.create');
-        return Redirect::route('categories.create');
+        return Redirect::route("categories.create");
     }
 
     /**

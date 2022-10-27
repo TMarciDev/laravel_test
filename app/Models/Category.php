@@ -9,9 +9,17 @@ class Category extends Model
 {
     use HasFactory;
 
-    public static $styles = ['primary', 'secondary','danger', 'warning', 'info', 'dark'];
+    public static $styles = [
+        "primary",
+        "secondary",
+        "danger",
+        "warning",
+        "info",
+        "dark",
+    ];
 
-    public function posts() {
+    public function posts()
+    {
         return $this->belongsToMany(Post::class)->withTimestamps();
     }
 }

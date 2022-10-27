@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      *
@@ -13,18 +12,26 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('category_post', function (Blueprint $table) {
+        Schema::create("category_post", function (Blueprint $table) {
             $table->id();
 
-            $table->unsignedBigInteger('category_id');
-            $table->unsignedBigInteger('post_id');
+            $table->unsignedBigInteger("category_id");
+            $table->unsignedBigInteger("post_id");
 
             $table->timestamps();
 
-            $table->unique(['category_id', 'post_id']);
+            $table->unique(["category_id", "post_id"]);
 
-            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
-            $table->foreign('post_id')->references('id')->on('posts')->onDelete('cascade');
+            $table
+                ->foreign("category_id")
+                ->references("id")
+                ->on("categories")
+                ->onDelete("cascade");
+            $table
+                ->foreign("post_id")
+                ->references("id")
+                ->on("posts")
+                ->onDelete("cascade");
         });
     }
 
@@ -35,6 +42,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('category_post');
+        Schema::dropIfExists("category_post");
     }
 };

@@ -21,25 +21,26 @@ class DatabaseSeeder extends Seeder
         for ($i = 1; $i <= $users_count; $i++) {
             $users->add(
                 \App\Models\User::factory()->create([
-                    'email' => 'user' . $i . '@szerveroldali.hu'
+                    "email" => "user" . $i . "@szerveroldali.hu",
                 ])
             );
         }
 
-        $categories = \App\Models\Category::factory(rand(7,10))->create();
-        $posts = \App\Models\Post::factory(rand(10,15))->create();
+        $categories = \App\Models\Category::factory(rand(7, 10))->create();
+        $posts = \App\Models\Post::factory(rand(10, 15))->create();
 
         // A post a "közös pont": szerző + kategória is tartozik hozzá
         $posts->each(function ($post) use (&$users, &$categories) {
             // Szerző hozzáadása
-            $post->author()->associate($users->random())->save();
+            $post
+                ->author()
+                ->associate($users->random())
+                ->save();
 
             // Kategóriák hozzáadása
-            $post->categories()->sync(
-                $categories->random(
-                    rand(1, $categories->count())
-                )
-            );
+            $post
+                ->categories()
+                ->sync($categories->random(rand(1, $categories->count())));
         });
 
         // $post = new \App\Models\Post();

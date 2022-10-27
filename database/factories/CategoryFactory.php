@@ -18,8 +18,8 @@ class CategoryFactory extends Factory
     public function definition()
     {
         return [
-            'name' => fake()->word(),
-            'style' => fake()->randomElement(Category::$styles),
+            "name" => fake()->word(),
+            "style" => fake()->randomElement(Category::$styles),
         ];
     }
 }
