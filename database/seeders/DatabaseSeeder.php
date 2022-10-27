@@ -18,6 +18,12 @@ class DatabaseSeeder extends Seeder
         // user2@...
         $users_count = rand(5, 10);
         $users = collect();
+        $users->add(
+            \App\Models\User::factory()->create([
+                "email" => "admin@szerveroldali.hu",
+                "is_admin" => true,
+            ])
+        );
         for ($i = 1; $i <= $users_count; $i++) {
             $users->add(
                 \App\Models\User::factory()->create([
