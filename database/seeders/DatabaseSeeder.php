@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
             \App\Models\User::factory()->create([
                 "email" => "admin@szerveroldali.hu",
                 "is_admin" => true,
+                "password" => bcrypt('adminpwd'),
             ])
         );
         for ($i = 1; $i <= $users_count; $i++) {
