@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      *
@@ -13,23 +12,25 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('comments', function (Blueprint $table) {
+        Schema::create("item_label", function (Blueprint $table) {
             $table->id();
-            $table->text('text');
 
-            $table->unsignedBigInteger("author_id")->nullable();
-            $table->unsignedBigInteger("item_id")->nullable();
+            $table->unsignedBigInteger("item_id");
+            $table->unsignedBigInteger("label_id");
+
             $table->timestamps();
 
-            $table
-                ->foreign("author_id")
-                ->references("id")
-                ->on("users")
-                ->onDelete("cascade");
+            $table->unique(["item_id", "label_id"]);
+
             $table
                 ->foreign("item_id")
                 ->references("id")
                 ->on("items")
+                ->onDelete("cascade");
+            $table
+                ->foreign("label_id")
+                ->references("id")
+                ->on("labels")
                 ->onDelete("cascade");
         });
     }
@@ -41,6 +42,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('comments');
+        Schema::dropIfExists("item_label");
     }
 };
