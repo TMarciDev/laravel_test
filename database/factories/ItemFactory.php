@@ -17,7 +17,10 @@ class ItemFactory extends Factory
     public function definition()
     {
         return [
-            //
+            "name" => rtrim(fake()->sentence(), "."),
+            "description" => fake()->sentence(),
+            "obtained" => fake()->date('Y_m_d H:i:s'),
+            "image" => null,
         ];
     }
 }

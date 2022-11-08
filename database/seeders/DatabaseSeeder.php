@@ -33,6 +33,38 @@ class DatabaseSeeder extends Seeder
             );
         }
 
+        // ItemFactory:
+            $items = \App\Models\Item::factory(rand(10, 20))->create();
+        // CommentFactory:
+            $comments = \App\Models\Comment::factory(rand(30, 40))->create();
+        // LabelFactory:
+            //TODO: 2 way connections
+            $labels = \App\Models\Label::factory(rand(5, 8))->create();
+        // Connections:
+
+        $comments->each(function ($comment) use (&$users, &$items) {
+            // Szerző hozzáadása
+            $comment
+                ->author()
+                ->associate($users->random())
+                ->save();
+
+            // Kommentelt item hozzárendelése
+            $comment
+                ->item()
+                ->associate($items->random())
+                ->save();
+        });
+
+        $items->each(function ($item) use (&$labels) {
+            // Item-Label pivot kapcsolat hozzáadása
+            $item
+                ->labels()
+                ->sync($labels->random(rand(1, $labels->count())));
+        });
+
+
+
         $categories = \App\Models\Category::factory(rand(7, 10))->create();
         $posts = \App\Models\Post::factory(rand(10, 15))->create();
 
