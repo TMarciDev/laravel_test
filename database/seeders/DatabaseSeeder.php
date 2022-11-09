@@ -39,7 +39,7 @@ class DatabaseSeeder extends Seeder
             $comments = \App\Models\Comment::factory(rand(30, 40))->create();
         // LabelFactory:
             //TODO: 2 way connections
-            $labels = \App\Models\Label::factory(rand(5, 8))->create();
+            $labels = \App\Models\Label::factory(rand(9, 10))->create();
         // Connections:
 
         $comments->each(function ($comment) use (&$users, &$items) {
@@ -58,9 +58,12 @@ class DatabaseSeeder extends Seeder
 
         $items->each(function ($item) use (&$labels) {
             // Item-Label pivot kapcsolat hozzáadása
-            $item
+
+            if(rand(1, 10) > 3) {
+                $item
                 ->labels()
                 ->sync($labels->random(rand(1, $labels->count())));
+            }
         });
     }
 }

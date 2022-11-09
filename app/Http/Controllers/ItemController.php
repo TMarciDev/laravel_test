@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Item;
+use App\Models\Label;
 use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -24,6 +25,7 @@ class ItemController extends Controller
             "users_count" => User::count(),
             // 'posts' => Post::all(),
             "items" => Item::orderBy('obtained', 'desc')->paginate(6),
+            //"labels" => Label::all(),
         ]);
     }
 
@@ -120,6 +122,7 @@ class ItemController extends Controller
         return Redirect::route("posts.show", $post);
     }
 
+
     /**
      * Display the specified resource.
      *
@@ -130,8 +133,12 @@ class ItemController extends Controller
     {
         return view("items.show", [
             "item" => $item,
+            //$tags = $item->Tags()->get();
+            "labels" => $item->Labels,
         ]);
     }
+
+
 
     /**
      * Show the form for editing the specified resource.
