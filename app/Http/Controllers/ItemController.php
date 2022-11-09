@@ -126,10 +126,10 @@ class ItemController extends Controller
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function show(Post $post)
+    public function show(Item $item)
     {
-        return view("posts.show", [
-            "post" => $post,
+        return view("items.show", [
+            "item" => $item,
         ]);
     }
 

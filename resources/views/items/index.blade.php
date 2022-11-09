@@ -33,8 +33,12 @@
 
                         {{-- TODO: Short desc --}}
                         <p class="card-text mt-1">{{ Str::of($item->description)->limit(100, ' (...)') }}</p>
-
-                        <button>View details (TODO)</button>
+                    </div>
+                    <div class="card-footer">
+                        {{-- TODO: Link --}}
+                        <a href="{{ route('items.show', $item) }}" class="btn btn-primary">
+                            <span>View item</span> <i class="fas fa-angle-right"></i>
+                        </a>
                     </div>
                 </div>
             </div>
