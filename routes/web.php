@@ -1,13 +1,11 @@
 <?php
 
 //use App\Models\User;
-
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\PostController;
+use App\Http\Controllers\ItemController;
 use Illuminate\Support\Facades\Route;
 
 Route::get("/", function () {
-    return redirect()->route("posts.index");
+    return redirect()->route("items.index");
 });
 
 // Route::resource('posts', PostController::class);
@@ -15,8 +13,9 @@ Route::get("/", function () {
 
 // Egyszerre:
 Route::resources([
-    "posts" => PostController::class,
-    "categories" => CategoryController::class,
+    "items" => ItemController::class,
+    //"posts" => PostController::class,
+    //"categories" => CategoryController::class,
 ]);
 
 // Route::get('/posts', function () {

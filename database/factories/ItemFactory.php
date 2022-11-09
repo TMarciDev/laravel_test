@@ -18,7 +18,7 @@ class ItemFactory extends Factory
     {
         return [
             "name" => rtrim(fake()->sentence(), "."),
-            "description" => fake()->sentence(),
+            "description" => fake()->paragraphs(rand(2,8), true),
             "obtained" => fake()->date('Y_m_d H:i:s'),
             "image" => null,
         ];
