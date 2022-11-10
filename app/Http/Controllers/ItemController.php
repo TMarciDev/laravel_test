@@ -133,8 +133,10 @@ class ItemController extends Controller
     {
         return view("items.show", [
             "item" => $item,
-            //$tags = $item->Tags()->get();
-            "labels" => $item->Labels,
+            "labels" => $item->Labels->whereIn('display', 1),
+            //$tags = $item->Tags()->get(),
+            //"labels" => $item->Labels,
+            //"labels" => $item->getLabels(),
         ]);
     }
 

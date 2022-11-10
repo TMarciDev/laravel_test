@@ -46,9 +46,6 @@
                 --}}
                     @forelse ($labels as $label)
                         <span class="badge" style="background-color: {{ $label->color }}">{{ $label->name }}</span> |
-                        @if (!$label->show)
-                            DOOONT
-                        @endif
                     @empty
                         No label is added.
                     @endforelse
