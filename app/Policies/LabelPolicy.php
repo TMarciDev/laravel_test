@@ -11,9 +11,10 @@ class LabelPolicy
 
     public function create(User $user)
     {
-        //return $user->is_admin;
-        return true;
+        return $user->is_admin;
+        //return true;
     }
+    /*
     public function edit(User $user)
     {
         return $user->is_admin;
@@ -21,5 +22,5 @@ class LabelPolicy
     public function delete(User $user)
     {
         return $user->is_admin;
-    }
+    }*/
 }

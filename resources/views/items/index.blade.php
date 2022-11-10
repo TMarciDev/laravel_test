@@ -3,14 +3,15 @@
 
 @section('content')
     <div clFss="container">
-        @auth
-            {{ Auth::user()->name }}
-        @endauth
-        <h1>YOU ARE NOT ADMIN USER</h1>
-        <a role="button" class="btn btn-sm btn-primary" href="{{ route('labels.create') }}"><i class="far fa-edit"></i>
-            Create Label</a>
-        <h1>Items </h1>
-        <div>
+
+        @can('create', App\Label::class)
+            <div>
+                <a role="button" class="btn btn-sm btn-primary" href="{{ route('labels.create') }}"><i class="far fa-edit"></i>
+                    Create Label</a>
+                <h1>Items </h1>
+            </div>
+        @endcan
+        <div style="display: flex; flex-wrap: wrap">
             @forelse ($items as $item)
                 <div class="col-12 col-md-6 col-lg-4 mb-3 d-flex align-self-stretch">
                     <div class="card w-100">
