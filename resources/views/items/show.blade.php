@@ -45,7 +45,7 @@
                     @endforeach
                 --}}
                     @forelse ($labels as $label)
-                        <span class="badge" style="background-color: {{ $label->color }}">{{ $label->name }}</span> |
+                        <span class="badge" style="background-color: {{ $label->color }}">{{ $label->name }}</span>
                     @empty
                         No label is added.
                     @endforelse
@@ -75,6 +75,7 @@
 
                 </div>
             </div>
+
         </div>
 
         <!-- Modal -->
@@ -115,6 +116,28 @@
         <div class="mt-3">
             {{-- TODO: Item paragraphs --}}
             {!! nl2br(e($item->description)) !!}
+        </div>
+        <div>
+            <h3>Comments: </h3>
+            <ul>
+                @forelse ($comments as $comment)
+                    {{-- print_r($comment) --}}
+                    <li>
+                        <b>{{ $comment->author->name }}</b>
+                        <br />
+                        {!! nl2br(e($comment->text)) !!}
+                        <br />
+                        <hr />
+                        <i class="far fa-calendar-alt"></i>
+                        <span>Date: </span>
+                        <span>{{ $comment->created_at }}</span>
+                    </li>
+                    <br />
+                @empty
+                    <p>No comments are made for this artifact yet.</p>
+                @endforelse
+            </ul>
+
         </div>
     </div>
 @endsection

@@ -25,7 +25,7 @@ class ItemController extends Controller
             "users_count" => User::count(),
             // 'posts' => Post::all(),
             "items" => Item::orderBy('obtained', 'desc')->paginate(6),
-            //"labels" => Label::all(),
+            "labels" => Label::all(),
         ]);
     }
 
@@ -134,9 +134,7 @@ class ItemController extends Controller
         return view("items.show", [
             "item" => $item,
             "labels" => $item->Labels->whereIn('display', 1),
-            //$tags = $item->Tags()->get(),
-            //"labels" => $item->Labels,
-            //"labels" => $item->getLabels(),
+            "comments" => $item->comments()->with('author')->orderBy('updated_at', 'desc')->get(),
         ]);
     }
 

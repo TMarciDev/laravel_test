@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
         $users->add(
             \App\Models\User::factory()->create([
                 "email" => "admin@szerveroldali.hu",
+                "name" => "ADMIN USER",
                 "is_admin" => true,
                 "password" => bcrypt('adminpwd'),
             ])
@@ -36,7 +37,7 @@ class DatabaseSeeder extends Seeder
         // ItemFactory:
             $items = \App\Models\Item::factory(rand(10, 20))->create();
         // CommentFactory:
-            $comments = \App\Models\Comment::factory(rand(30, 40))->create();
+            $comments = \App\Models\Comment::factory(rand(40, 50))->create();
         // LabelFactory:
             //TODO: 2 way connections
             $labels = \App\Models\Label::factory(rand(9, 10))->create();
