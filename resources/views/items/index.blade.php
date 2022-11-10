@@ -5,11 +5,9 @@
     <div clFss="container">
 
         @can('create', App\Label::class)
-            <div>
-                <a role="button" class="btn btn-sm btn-primary" href="{{ route('labels.create') }}"><i class="far fa-edit"></i>
-                    Create Label</a>
-                <h1>Items </h1>
-            </div>
+            <a role="button" class="btn btn-sm btn-primary" href="{{ route('labels.create') }}"><i class="far fa-edit"></i>
+                Create Label</a>
+            <h1>Items </h1>
         @endcan
         <div style="display: flex; flex-wrap: wrap">
             @forelse ($items as $item)
