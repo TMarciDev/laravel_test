@@ -10,9 +10,9 @@ class LabelController extends Controller
 {
     public function create()
     {
-        $this->authorize('create', Label::class);
+        $this->authorize('create', App\Label::class);
         return view("labels.create", [
-            "labels" => Label::all(),
+            //"labels" => Label::all(),
         ]);
     }
 }
