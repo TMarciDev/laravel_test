@@ -11,7 +11,8 @@ class LabelPolicy
 
     public function create(User $user)
     {
-        return $user->is_admin;
+        //return $user->is_admin;
+        return true;
     }
     public function edit(User $user)
     {

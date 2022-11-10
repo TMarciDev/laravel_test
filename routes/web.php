@@ -2,6 +2,7 @@
 
 //use App\Models\User;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\LabelController;
 use Illuminate\Support\Facades\Route;
 
 Route::get("/", function () {
@@ -14,6 +15,7 @@ Route::get("/", function () {
 // Egyszerre:
 Route::resources([
     "items" => ItemController::class,
+    "labels" => LabelController::class,
     //"posts" => PostController::class,
     //"categories" => CategoryController::class,
 ]);

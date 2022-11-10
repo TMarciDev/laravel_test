@@ -3,12 +3,12 @@
 
 @section('content')
     <div clFss="container">
-        {{ Auth::user()->is_admin }}
-        @can('create', $labels)
-            <h1>YOU ARE ADMIN USER</h1>
-            <a role="button" class="btn btn-sm btn-primary" href="{{ route('labels.create') }}"><i class="far fa-edit"></i>
-                Create Label</a>
-        @endcan
+        @auth
+            {{ Auth::user()->name }}
+        @endauth
+        <h1>YOU ARE NOT ADMIN USER</h1>
+        <a role="button" class="btn btn-sm btn-primary" href="{{ route('labels.create') }}"><i class="far fa-edit"></i>
+            Create Label</a>
         <h1>Items </h1>
         <div>
             @forelse ($items as $item)

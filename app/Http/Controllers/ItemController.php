@@ -23,7 +23,6 @@ class ItemController extends Controller
     {
         return view("items.index", [
             "users_count" => User::count(),
-            // 'posts' => Post::all(),
             "items" => Item::orderBy('obtained', 'desc')->paginate(6),
             "labels" => Label::all(),
         ]);
