@@ -75,7 +75,7 @@
             </div>
 
             <div class="text-center">
-                <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Store</button>
+                <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Create label</button>
             </div>
 
         </form>
