@@ -45,7 +45,7 @@
             <div class="form-group row mb-3">
                 <label for="style" class="col-sm-2 col-form-label py-0">Visible:</label>
                 <div class="col-sm-10">
-                    <input type="checkbox" id="display" name="display" value="{{ old('display', $label->display) }}"
+                    <input type="checkbox" id="display" name="display" value="1"
                         {{ $label->display ? 'checked' : '' }}>
                 </div>
                 @error('display')
