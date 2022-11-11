@@ -57,24 +57,25 @@
 
             </div>
 
-            <div class="col-12 col-md-4">
-                <div class="float-lg-end">
+            {{--
+                <div class="col-12 col-md-4">
+                    <div class="float-lg-end">
 
-                    {{-- TODO: Links, policy --}}
                     @can('update', $item)
                         <a role="button" class="btn btn-sm btn-primary" href="{{ route('items.edit', $item) }}"><i
                                 class="far fa-edit"></i> Edit item</a>
                     @endcan
 
                     @can('delete', $item)
-                        <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#delete-confirm-modal"><i
-                                class="far fa-trash-alt">
-                                <span></i> Delete item</span>
-                        </button>
+                    <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#delete-confirm-modal"><i
+                        class="far fa-trash-alt">
+                        <span></i> Delete item</span>
+                    </button>
                     @endcan
 
                 </div>
             </div>
+            --}}
 
         </div>
 
@@ -107,11 +108,13 @@
                     </div>
                 </div>
             </div>
+            {{ $item->image }}
+            {{ $image }}
         </div>
 
         <img id="cover_preview_image" {{-- TODO: Cover --}}
-            src="{{ asset($item->cover_image_path ? 'storage/' . $item->cover_image_path : 'images/default_item_cover.jpg') }}"
-            width="350px" alt="Cover preview" class="my-3">
+            src="{{ asset($item->image ? 'storage/' . $item->image : 'images/default_item_cover.jpg') }}" width="350px"
+            alt="Cover preview" class="my-3">
 
         <div class="mt-3">
             {{-- TODO: Item paragraphs --}}

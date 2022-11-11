@@ -35,8 +35,8 @@ class ItemController extends Controller
      */
     public function create()
     {
-        return view("posts.create", [
-            "categories" => Category::all(),
+        return view("items.create", [
+            "labels" => Label::all(),
         ]);
     }
 
@@ -48,21 +48,23 @@ class ItemController extends Controller
      */
     public function store(Request $request)
     {
+        //$this->authorize('create', App\Item::class);
+
         $validated = $request->validate([
-            "title" => "required|min:3",
-            "description" => "nullable|max:255",
-            "text" => "required",
-            "categories" => "nullable|array",
-            "categories.*" => "numeric|integer|exists:categories,id",
+            "name" => "required|min:3",
+            "description" => "required",
+            "obtained" => "required|date",
+            "labels" => "nullable|array",
+            "labels.*" => "numeric|integer|exists:labels,id",
             "cover_image" => "nullable|file|image|max:4096",
         ]);
 
-        $cover_image_path = null;
+        $image = null;
 
         if ($request->hasFile("cover_image")) {
             $file = $request->file("cover_image");
 
-            $cover_image_path =
+            $image =
                 "cover_image_" .
                 Str::random(10) .
                 "." .
@@ -70,68 +72,41 @@ class ItemController extends Controller
 
             Storage::disk("public")->put(
                 // File útvonala
-                $cover_image_path,
+                $image,
                 // File tartalma
                 $file->get()
             );
         }
 
-        $post = new Post();
-        $post->title = $validated["title"];
-        $post->description = $validated["description"];
-        $post->text = $validated["text"];
-        $post->cover_image_path = $cover_image_path;
-        // $post->author_id = Auth::id();
-        $post->author()->associate(Auth::user());
-        $post->save();
+        $item = new Item();
+        $item->name = $validated["name"];
+        $item->description = $validated["description"];
+        $item->obtained = $validated["obtained"];
+        $item->image = $image;
+        $item->save();
 
-        // $post = Post::create([
-        //     'title' => $validated['title'],
-        //     'description' => $validated['description'],
-        //     'text' => $validated['text'],
-        //     'cover_image_path' => $cover_image_path,
-        //     'author_id' => Auth::id(),
-        // ]);
-
-        // $post = Post::factory()->create([
-        //     'title' => $validated['title'],
-        //     'description' => $validated['description'],
-        //     'text' => $validated['text'],
-        //     'cover_image_path' => $cover_image_path,
-        //     'author_id' => Auth::id(),
-        // ]);
-
-        // Ez is egy valid megoldás a user hozzárendelésére:
-        // $post->author()->associate(Auth::user());
-        // Mivel a post megváltozik (author_id), menteni kell
-        // $post->save();
-
-        // "Debug"
-        //error_log(json_encode($validated));
-
-        // Category-k hozzárendelése a post-hoz az id lista alapján
-        if (isset($validated["categories"])) {
-            $post->categories()->sync($validated["categories"]);
+        // Labelek-k hozzárendelése a item-hoz az id lista alapján
+        if (isset($validated["labels"])) {
+            $item->labels()->sync($validated["labels"]);
         }
 
-        Session::flash("post_created", $validated["title"]);
+        Session::flash("item_created", $validated["name"]);
 
-        // return redirect()->route('posts.create');
-        // return Redirect::route('posts.create');
-        return Redirect::route("posts.show", $post);
+        return Redirect::route("items.show", $item);
     }
 
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Post  $post
+     * @param  \App\Models\Post  $item
      * @return \Illuminate\Http\Response
      */
     public function show(Item $item)
     {
         return view("items.show", [
             "item" => $item,
+            "image" => $item->image,
             "labels" => $item->Labels->whereIn('display', 1),
             "comments" => $item->comments()->with('author')->orderBy('updated_at', 'desc')->get(),
         ]);
@@ -142,16 +117,16 @@ class ItemController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Post  $post
+     * @param  \App\Models\Post  $item
      * @return \Illuminate\Http\Response
      */
-    public function edit(Post $post)
+    public function edit(Post $item)
     {
         // Jogosultságkezelés
-        $this->authorize("update", $post);
+        $this->authorize("update", $item);
 
-        return view("posts.edit", [
-            "post" => $post,
+        return view("items.edit", [
+            "item" => $item,
             "categories" => Category::all(),
         ]);
     }
@@ -160,16 +135,16 @@ class ItemController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Post  $post
+     * @param  \App\Models\Post  $item
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Post $post)
+    public function update(Request $request, Post $item)
     {
         // Jogosultságkezelés
-        $this->authorize("update", $post);
+        $this->authorize("update", $item);
 
         $validated = $request->validate([
-            "title" => "required|min:3",
+            "name" => "required|min:3",
             "description" => "nullable|max:255",
             "text" => "required",
             "categories" => "nullable|array",
@@ -179,13 +154,13 @@ class ItemController extends Controller
             "cover_image" => "nullable|file|image|max:4096",
         ]);
 
-        $cover_image_path = $post->cover_image_path;
+        $image = $item->image;
         $remove_cover_image = isset($validated["remove_cover_image"]);
 
         if ($request->hasFile("cover_image") && !$remove_cover_image) {
             $file = $request->file("cover_image");
 
-            $cover_image_path =
+            $image =
                 "cover_image_" .
                 Str::random(10) .
                 "." .
@@ -193,58 +168,58 @@ class ItemController extends Controller
 
             Storage::disk("public")->put(
                 // File útvonala
-                $cover_image_path,
+                $image,
                 // File tartalma
                 $file->get()
             );
         }
 
         if ($remove_cover_image) {
-            $cover_image_path = null;
+            $image = null;
         }
 
         // Régi fájl törlése
         // Ha a path módosult az eredetihez képest
         if (
-            $cover_image_path != $post->cover_image_path &&
-            $post->cover_image_path !== null
+            $image != $item->image &&
+            $item->image !== null
         ) {
-            Storage::disk("public")->delete($post->cover_image_path);
+            Storage::disk("public")->delete($item->image);
         }
 
         // Post adatainak frissítése
-        $post->title = $validated["title"];
-        $post->description = $validated["description"];
-        $post->text = $validated["text"];
-        $post->cover_image_path = $cover_image_path;
-        $post->save();
+        $item->name = $validated["name"];
+        $item->description = $validated["description"];
+        $item->text = $validated["text"];
+        $item->image = $image;
+        $item->save();
 
-        // Category-k hozzárendelése a post-hoz az id lista alapján
+        // Category-k hozzárendelése a item-hoz az id lista alapján
         if (isset($validated["categories"])) {
             // A sync azt fogja csinálni, hogy csak a megadott kategóriák lesznek hozzárendelve
-            $post->categories()->sync($validated["categories"]);
+            $item->categories()->sync($validated["categories"]);
         }
 
-        // Ilyenkor a post_updated default értéke true
-        Session::flash("post_updated");
+        // Ilyenkor a item_updated default értéke true
+        Session::flash("item_updated");
 
-        return Redirect::route("posts.show", $post);
+        return Redirect::route("items.show", $item);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Post  $post
+     * @param  \App\Models\Post  $item
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Post $post)
+    public function destroy(Post $item)
     {
-        $this->authorize("delete", $post);
+        $this->authorize("delete", $item);
 
-        $post->delete();
+        $item->delete();
 
-        Session::flash("post_deleted", $post->title);
+        Session::flash("item_deleted", $item->name);
 
-        return Redirect::route("posts.index");
+        return Redirect::route("items.index");
     }
 }
