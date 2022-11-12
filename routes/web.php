@@ -3,6 +3,7 @@
 //use App\Models\User;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\LabelController;
+use App\Http\Controllers\CommentController;
 use Illuminate\Support\Facades\Route;
 
 Route::get("/", function () {
@@ -16,7 +17,7 @@ Route::get("/", function () {
 Route::resources([
     "items" => ItemController::class,
     "labels" => LabelController::class,
-    "comments" => LabelController::class,
+    "comments" => CommentController::class,
     //"posts" => PostController::class,
     //"categories" => CategoryController::class,
 ]);

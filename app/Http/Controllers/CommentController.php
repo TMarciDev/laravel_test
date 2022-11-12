@@ -13,17 +13,18 @@ use Illuminate\Validation\Rule;
 
 class CommentController extends Controller
 {
-    public function store(Request $request, Item $item)
+    public function store(Request $request)
     {
         //$this->authorize('create', App\Comment::class);
         Auth::check();
+        $itemId = $request["itemId"];
 
         $validated = $request->validate([
             "text" => "required",
         ]);
         $comment = new Comment();
         $comment->text = $validated['text'];
-        $comment->item_id = $item->id;
+        $comment->item_id = $itemId;
         $comment->author_id = Auth::user()->id;
         $comment->save();
 
@@ -33,7 +34,7 @@ class CommentController extends Controller
         Session::flash("comment_created");
 
         // return redirect()->route('categories.create');
-        return Redirect::route("items.show", $item);
+        return Redirect::route("items.show", $itemId);
     }
 
     public function update(Request $request, Comment $comment)

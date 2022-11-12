@@ -129,7 +129,7 @@
         <div>
             @auth
                 <h4>Create comment</h4>
-                <form action="{{ route('comments.store', $item) }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('comments.store', 'itemId=' . $item->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group row mb-3">
                         <label for="text" class="col-sm-2 col-form-label">Comment text*</label>
