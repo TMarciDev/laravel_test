@@ -48,7 +48,7 @@ class ItemController extends Controller
      */
     public function store(Request $request)
     {
-        //$this->authorize('create', App\Item::class);
+        $this->authorize('create', App\Item::class);
 
         $validated = $request->validate([
             "name" => "required|min:3",
@@ -99,7 +99,7 @@ class ItemController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Post  $item
+     * @param  \App\Models\Item  $item
      * @return \Illuminate\Http\Response
      */
     public function show(Item $item)
@@ -117,17 +117,17 @@ class ItemController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Post  $item
+     * @param  \App\Models\Item  $item
      * @return \Illuminate\Http\Response
      */
-    public function edit(Post $item)
+    public function edit(Item $item)
     {
         // Jogosultságkezelés
-        $this->authorize("update", $item);
+        $this->authorize("update", App\Item::class);
 
         return view("items.edit", [
             "item" => $item,
-            "categories" => Category::all(),
+            "labels" => Label::all(),
         ]);
     }
 
@@ -135,21 +135,20 @@ class ItemController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Post  $item
+     * @param  \App\Models\Item  $item
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Post $item)
+    public function update(Request $request, Item $item)
     {
         // Jogosultságkezelés
-        $this->authorize("update", $item);
+        $this->authorize("update", App\Item::class);
 
         $validated = $request->validate([
             "name" => "required|min:3",
-            "description" => "nullable|max:255",
-            "text" => "required",
-            "categories" => "nullable|array",
-            "categories.*" => "numeric|integer|exists:categories,id",
-            // checkbox:
+            "description" => "required",
+            "obtained" => "required|date",
+            "labels" => "nullable|array",
+            "labels.*" => "numeric|integer|exists:labels,id",
             "remove_cover_image" => "nullable|boolean",
             "cover_image" => "nullable|file|image|max:4096",
         ]);
@@ -187,17 +186,17 @@ class ItemController extends Controller
             Storage::disk("public")->delete($item->image);
         }
 
-        // Post adatainak frissítése
+        // Item adatainak frissítése
         $item->name = $validated["name"];
         $item->description = $validated["description"];
-        $item->text = $validated["text"];
+        $item->obtained = $validated["obtained"];
         $item->image = $image;
         $item->save();
 
         // Category-k hozzárendelése a item-hoz az id lista alapján
-        if (isset($validated["categories"])) {
+        if (isset($validated["labels"])) {
             // A sync azt fogja csinálni, hogy csak a megadott kategóriák lesznek hozzárendelve
-            $item->categories()->sync($validated["categories"]);
+            $item->labels()->sync($validated["labels"]);
         }
 
         // Ilyenkor a item_updated default értéke true
@@ -209,10 +208,10 @@ class ItemController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Post  $item
+     * @param  \App\Models\Item  $item
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Post $item)
+    public function destroy(Item $item)
     {
         $this->authorize("delete", $item);
 

@@ -57,25 +57,25 @@
 
             </div>
 
-            {{--
-                <div class="col-12 col-md-4">
-                    <div class="float-lg-end">
 
-                    @can('update', $item)
+            <div class="col-12 col-md-4">
+                <div class="float-lg-end">
+
+                    @can('update', App\Item::class)
                         <a role="button" class="btn btn-sm btn-primary" href="{{ route('items.edit', $item) }}"><i
                                 class="far fa-edit"></i> Edit item</a>
                     @endcan
 
-                    @can('delete', $item)
-                    <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#delete-confirm-modal"><i
-                        class="far fa-trash-alt">
-                        <span></i> Delete item</span>
-                    </button>
+                    @can('delete', App\Item::class)
+                        <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#delete-confirm-modal"><i
+                                class="far fa-trash-alt">
+                                <span></i> Delete item</span>
+                        </button>
                     @endcan
 
                 </div>
             </div>
-            --}}
+
 
         </div>
 
