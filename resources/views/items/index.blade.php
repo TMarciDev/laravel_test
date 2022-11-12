@@ -3,6 +3,11 @@
 
 @section('content')
     <div clFss="container" style="margin: 10px">
+        @if (Session::has('item_deleted'))
+            <div class="alert alert-success" role="alert">
+                Item successfully deleted!
+            </div>
+        @endif
 
         @can('create', App\Label::class)
             <a role="button" class="btn btn-sm btn-primary" href="{{ route('labels.index') }}"><i class="far fa-edit"></i>

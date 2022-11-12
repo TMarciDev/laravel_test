@@ -218,7 +218,7 @@ class ItemController extends Controller
      */
     public function destroy(Item $item)
     {
-        $this->authorize("delete", $item);
+        $this->authorize("delete", App\Item::class);
 
         $item->delete();
 

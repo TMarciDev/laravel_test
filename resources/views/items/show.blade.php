@@ -90,7 +90,7 @@
                     </div>
                     <div class="modal-body">
                         {{-- TODO: Title --}}
-                        Are you sure you want to delete item <strong>{{ $item->title }}</strong>?
+                        Are you sure you want to delete item <strong>{{ $item->name }}</strong>?
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
