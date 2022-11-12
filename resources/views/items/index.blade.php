@@ -29,7 +29,8 @@
                                 <span>
                                     <i class="far fa-calendar-alt"></i>
                                     {{-- TODO: Date --}}
-                                    <span>Obtained: {{ str_replace('_', '.', explode(' ', $item->obtained)[0]) }}</span>
+                                    <span>Obtained:
+                                        {{ substr(str_replace('_', '.', explode(' ', $item->obtained)[0]), 0, 10) }}</span>
                                 </span>
                             </p>
 

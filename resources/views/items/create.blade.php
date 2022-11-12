@@ -45,8 +45,8 @@
             <div class="form-group row mb-3">
                 <label for="obtained" class="col-sm-2 col-form-label">Obtained*</label>
                 <div class="col-sm-10">
-                    <input type="date" class="form-control @error('obtained') is-invalid @enderror" id="obtained"
-                        name="obtained" value="{{ old('obtained') }}">
+                    <input type="datetime-local" class="form-control @error('obtained') is-invalid @enderror" id="obtained"
+                        name="obtained" value="2022-11-19T14:42:11">
                     @error('obtained')
                         <div class="invalid-feedback">
                             {{-- A $message ugyanúgy elérhető az error alatt, mint a ciklusok alatt a $loop --}}

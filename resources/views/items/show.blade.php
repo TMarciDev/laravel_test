@@ -33,7 +33,7 @@
                     <i class="far fa-calendar-alt"></i>
                     <span>Obtained: </span>
                     {{-- TODO: Date --}}
-                    <span>{{ $item->created_at }}</span>
+                    {{ substr(str_replace('_', '.', explode(' ', $item->obtained)[0]), 0, 10) }}</span>
                 </p>
 
                 <div class="mb-2">

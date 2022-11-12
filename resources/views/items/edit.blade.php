@@ -43,9 +43,10 @@
             </div>
 
             <div class="form-group row mb-3">
+                {{ $item->obtained }}
                 <label for="obtained" class="col-sm-2 col-form-label">Obtained*</label>
                 <div class="col-sm-10">
-                    <input type="date" class="form-control @error('obtained') is-invalid @enderror" id="obtained"
+                    <input type="datetime-local" class="form-control @error('obtained') is-invalid @enderror" id="obtained"
                         name="obtained" value="{{ old('obtained', $item->obtained) }}">
                     @error('obtained')
                         <div class="invalid-feedback">

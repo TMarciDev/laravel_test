@@ -50,6 +50,9 @@ class ItemController extends Controller
     {
         $this->authorize('create', App\Item::class);
 
+        //str_replace('T',' ',$request['obtained']);
+        //str_replace('-','_',$request['obtained']);
+
         $validated = $request->validate([
             "name" => "required|min:3",
             "description" => "required",
@@ -125,6 +128,8 @@ class ItemController extends Controller
         // Jogosultságkezelés
         $this->authorize("update", App\Item::class);
 
+        $item->obtained = str_replace('_', '-', $item->obtained);
+        $item->obtained = str_replace(' ', 'T', $item->obtained);
         return view("items.edit", [
             "item" => $item,
             "labels" => Label::all(),
