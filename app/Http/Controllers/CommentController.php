@@ -39,32 +39,7 @@ class CommentController extends Controller
 
     public function update(Request $request, Comment $comment)
     {
-        // Jogosultságkezelés
-        $this->authorize('update', App\Comment::class);
-
-        if(is_null($request["display"])) {
-            $request["display"] = false;
-        }
-
-        $validated = $request->validate([
-            "name" => "required",
-            "color" => [
-                'required',
-                'regex:/^#([a-f0-9]{6}|[a-f0-9]{3})$/i'
-            ],
-            "display" => "required|bool",
-        ]);
-
-
-        // Post adatainak frissítése
-        $comment->name = $validated["name"];
-        $comment->color = $validated["color"];
-        $comment->display = $validated["display"];
-        $comment->save();
-
-        // Ilyenkor a comment_updated default értéke true
-        Session::flash("comment_updated", $validated["name"]);
-        return Redirect::route("comments.index", $comment);
+        //$this->authorize("update", $comment);
     }
 
     public function destroy(Comment $comment)

@@ -3,6 +3,7 @@
 namespace App\Policies;
 
 use App\Models\User;
+use App\Models\Comment;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class ItemPolicy
@@ -22,4 +23,5 @@ class ItemPolicy
     {
         return $user->is_admin;
     }
+
 }
