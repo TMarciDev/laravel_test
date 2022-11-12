@@ -20,7 +20,7 @@
             <a role="button" class="btn btn-sm btn-primary" href="{{ route('items.create') }}"><i class="far fa-edit"></i>
                 Create a new Item</a>
         @endcan
-        <div style="display: flex; flex-wrap: wrap">
+        <div style="display: flex; flex-wrap: wrap; margin-top: 10px">
             @forelse ($items as $item)
                 <div class="col-12 col-md-6 col-lg-4 mb-3 d-flex align-self-stretch">
                     <div class="card w-100">
