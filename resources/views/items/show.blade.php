@@ -18,6 +18,12 @@
             </div>
         @endif
 
+        @if (Session::has('comment_created'))
+            <div class="alert alert-success" role="alert">
+                Comment created succesfully!
+            </div>
+        @endif
+
         <div class="row justify-content-between">
             <div class="col-12 col-md-8">
                 {{-- TODO: Title --}}
@@ -121,6 +127,27 @@
             {!! nl2br(e($item->description)) !!}
         </div>
         <div>
+            @auth
+                <h4>Create comment</h4>
+                <form action="{{ route('comments.store', $item) }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <div class="form-group row mb-3">
+                        <label for="text" class="col-sm-2 col-form-label">Comment text*</label>
+                        <div class="col-sm-10">
+                            <textarea rows="5" class="form-control @error('text') is-invalid @enderror" id="text" name="text">{{ old('text') }}</textarea>
+                            @error('text')
+                                <div class="invalid-feedback">
+                                    {{-- A $message ugyanúgy elérhető az error alatt, mint a ciklusok alatt a $loop --}}
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Submit comment</button>
+                    </div>
+                </form>
+            @endauth
             <h3>Comments: </h3>
             <ul>
                 @forelse ($comments as $comment)

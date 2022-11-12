@@ -16,6 +16,7 @@ Route::get("/", function () {
 Route::resources([
     "items" => ItemController::class,
     "labels" => LabelController::class,
+    "comments" => LabelController::class,
     //"posts" => PostController::class,
     //"categories" => CategoryController::class,
 ]);

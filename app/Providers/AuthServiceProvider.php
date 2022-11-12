@@ -6,6 +6,7 @@ namespace App\Providers;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use App\Models\Label;
 use App\Models\Item;
+use App\Models\Comment;
 
 
 class AuthServiceProvider extends ServiceProvider
@@ -19,6 +20,7 @@ class AuthServiceProvider extends ServiceProvider
         // 'App\Models\Model' => 'App\Policies\ModelPolicy',
         Label::class => LabelPolicy::class,
         Item::class => ItemPolicy::class,
+        Comment::class => Comment::class,
     ];
 
     /**
