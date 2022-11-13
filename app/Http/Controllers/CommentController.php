@@ -41,15 +41,14 @@ class CommentController extends Controller
         //$this->authorize("update", $comment);
     }
 
-    public function destroy(Comment $comment, Item $item)
+    public function destroy(Comment $comment)
     {
-        //$this->authorize("delete", [App\Comment::class, $comment]);
-        error_log("deletion on teh was");
-
+        $this->authorize("delete", [App\Comment::class, $comment]);
+        $itemId = $comment->item_id;
         $comment->delete();
 
         Session::flash("comment_deleted");
 
-        return Redirect::route("items.show", $item);
+        return Redirect::route("items.show", $itemId);
     }
 }

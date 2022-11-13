@@ -24,6 +24,12 @@
             </div>
         @endif
 
+        @if (Session::has('comment_deleted'))
+            <div class="alert alert-success" role="alert">
+                Comment deleted succesfully!
+            </div>
+        @endif
+
         <div class="row justify-content-between">
             <div class="col-12 col-md-8">
                 {{-- TODO: Title --}}
@@ -156,6 +162,9 @@
 
                     const handleCommentSelection = (cId) => {
                         clickedCommentId = cId;
+                        let deleteForm = document.getElementById("delete-comment-form");
+                        link = deleteForm.action;
+                        deleteForm.action = link.replace('##REPLACETHIS##', cId)
                     }
                 </script>
             @endsection
@@ -186,7 +195,8 @@
                                         <span></i> Edit this comment</span>
                                 </button>
                                 <button class="btn btn-sm btn-danger" data-bs-toggle="modal"
-                                    data-bs-target="#delete-confirm-modal-comment" onClick=><i class="far fa-trash-alt">
+                                    data-bs-target="#delete-confirm-modal-comment"
+                                    onClick="handleCommentSelection({{ $comment->id }})"><i class="far fa-trash-alt">
                                         <span></i> Delete this comment</span>
                                 </button>
                             @endcan
@@ -221,7 +231,7 @@
                         </button>
 
                         {{-- TODO: Route, directives --}}
-                        <form id="delete-comment-form" action="{{ route('comments.destroy', $comment, $item) }}"
+                        <form id="delete-comment-form" action="{{ route('comments.destroy', '##REPLACETHIS##') }}"
                             method="POST" class="d-none">
                             @method('DELETE')
                             @csrf
