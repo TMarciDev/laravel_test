@@ -30,6 +30,12 @@
             </div>
         @endif
 
+        @if (Session::has('comment_updated'))
+            <div class="alert alert-success" role="alert">
+                Comment edited succesfully!
+            </div>
+        @endif
+
         <div class="row justify-content-between">
             <div class="col-12 col-md-8">
                 {{-- TODO: Title --}}
@@ -158,14 +164,32 @@
 
             @section('scripts')
                 <script>
-                    let clickedCommentId = null;
-
-                    const handleCommentSelection = (cId) => {
-                        clickedCommentId = cId;
+                    const handleDeleteCommentSelection = (cId) => {
                         let deleteForm = document.getElementById("delete-comment-form");
                         link = deleteForm.action;
                         deleteForm.action = link.replace('##REPLACETHIS##', cId)
                     }
+
+                    let updatedText = "";
+                    const handleUpdateCommentSelection = (cId, cText) => {
+                        text = atob(cText);
+                        const textarea = document.querySelector('#edit-confirm-modal #text-comment')
+                        textarea.value = text;
+                        updatedText = text;
+
+                        let editForm = document.getElementById("edit-comment-form");
+                        link = editForm.action;
+                        editForm.action = link.replace('##REPLACETHIS##', cId)
+
+                        const realInput = document.querySelector('#edit-confirm-modal #text');
+                        realInput.innerText = text;
+                    }
+                    document.querySelector('#edit-confirm-modal #text-comment').addEventListener("input", () => {
+                        const text = document.querySelector('#edit-confirm-modal #text-comment').value;
+                        const realInput = document.querySelector('#edit-confirm-modal #text');
+                        updatedText = text;
+                        realInput.value = updatedText;
+                    })
                 </script>
             @endsection
 
@@ -191,12 +215,14 @@
                             <hr />
                             @can('update', [App\Comment::class, $comment])
                                 <button class="btn btn-sm btn-primary" data-bs-toggle="modal"
-                                    data-bs-target="#edit-confirm-modal"><i class="far fa-trash-alt">
+                                    data-bs-target="#edit-confirm-modal"
+                                    onClick="handleUpdateCommentSelection({{ $comment->id }}, '{{ base64_encode($comment->text) }}')"><i
+                                        class="far fa-trash-alt">
                                         <span></i> Edit this comment</span>
                                 </button>
                                 <button class="btn btn-sm btn-danger" data-bs-toggle="modal"
                                     data-bs-target="#delete-confirm-modal-comment"
-                                    onClick="handleCommentSelection({{ $comment->id }})"><i class="far fa-trash-alt">
+                                    onClick="handleDeleteCommentSelection({{ $comment->id }})"><i class="far fa-trash-alt">
                                         <span></i> Delete this comment</span>
                                 </button>
                             @endcan
@@ -245,25 +271,28 @@
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="staticBackdropLabel">Confirm delete</h5>
+                        <h5 class="modal-title" id="staticBackdropLabel">Edit yor comment:</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         {{-- TODO: Title --}}
-                        Are you sure you want to delete item <strong>{{ $item->name }}</strong>?
+                        <label for="text-comment" class="col-sm-2 col-form-label">Comment:*</label>
+
+                        <textarea rows="5" class="form-control" id="text-comment" name="text-comment"></textarea>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn btn-danger"
-                            onclick="document.getElementById('delete-item-form').submit();">
-                            Yes, delete this item
+                        <button type="button" class="btn btn-primary"
+                            onclick="document.getElementById('edit-comment-form').submit();">
+                            Edit comment
                         </button>
 
                         {{-- TODO: Route, directives --}}
-                        <form id="delete-item-form" action="{{ route('items.destroy', $item) }}" method="POST"
-                            class="d-none">
-                            @method('DELETE')
+                        <form id="edit-comment-form" action="{{ route('comments.update', '##REPLACETHIS##') }}"
+                            method="POST" class="d-none">
+                            @method('PUT')
                             @csrf
+                            <textarea id="text" name="text"></textarea>
                         </form>
                     </div>
                 </div>

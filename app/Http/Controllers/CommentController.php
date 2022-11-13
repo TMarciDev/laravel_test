@@ -18,6 +18,7 @@ class CommentController extends Controller
         $this->authorize('create', App\Comment::class);
         $itemId = $request["itemId"];
 
+
         $validated = $request->validate([
             "text" => "required",
         ]);
@@ -38,7 +39,17 @@ class CommentController extends Controller
 
     public function update(Request $request, Comment $comment)
     {
-        //$this->authorize("update", $comment);
+        $this->authorize("update", [App\Comment::class, $comment]);
+        $validated = $request->validate([
+            "text" => "required",
+        ]);
+
+        error_log($request["text"]);
+        $comment->text = $validated["text"];
+        $comment->save();
+
+        Session::flash("comment_updated");
+        return Redirect::route("items.show", $comment->item_id);
     }
 
     public function destroy(Comment $comment)
