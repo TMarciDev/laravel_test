@@ -15,8 +15,7 @@ class CommentController extends Controller
 {
     public function store(Request $request)
     {
-        //$this->authorize('create', App\Comment::class);
-        Auth::check();
+        $this->authorize('create', App\Comment::class);
         $itemId = $request["itemId"];
 
         $validated = $request->validate([
@@ -42,14 +41,15 @@ class CommentController extends Controller
         //$this->authorize("update", $comment);
     }
 
-    public function destroy(Comment $comment)
+    public function destroy(Comment $comment, Item $item)
     {
-        $this->authorize("delete", App\Comment::class);
+        //$this->authorize("delete", [App\Comment::class, $comment]);
+        error_log("deletion on teh was");
 
         $comment->delete();
 
-        Session::flash("comment_deleted", $comment->name);
+        Session::flash("comment_deleted");
 
-        return Redirect::route("comments.index");
+        return Redirect::route("items.show", $item);
     }
 }

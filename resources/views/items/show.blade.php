@@ -149,22 +149,48 @@
                     </div>
                 </form>
             @endauth
+
+            @section('scripts')
+                <script>
+                    let clickedCommentId = null;
+
+                    const handleCommentSelection = (cId) => {
+                        clickedCommentId = cId;
+                    }
+                </script>
+            @endsection
+
             <h3>Comments: </h3>
             <ul>
                 @forelse ($comments as $comment)
-                    {{-- print_r($comment) --}}
-                    @if (Auth::user()->id == $comment->author_id)
-                        this finally works
-                    @endif
-                    <li>
-                        <b>{{ $comment->author->name }}</b>
-                        <br />
-                        {!! nl2br(e($comment->text)) !!}
-                        <br />
-                        <hr />
-                        <i class="far fa-calendar-alt"></i>
-                        <span>Date: </span>
-                        <span>{{ $comment->created_at }}</span>
+                    <li
+                        style="
+                            @can('update', [App\Comment::class, $comment])
+                                border-left: 4px solid teal
+                            @endcan
+                    ">
+                        <div style="margin: 10px">
+                            <b>{{ $comment->author->name }}</b>
+                            <br />
+                            {!! nl2br(e($comment->text)) !!}
+                            <br />
+                            <hr />
+                            <i class="far fa-calendar-alt"></i>
+                            <span>Date: </span>
+                            <span>{{ $comment->created_at }}</span>
+                            <br />
+                            <hr />
+                            @can('update', [App\Comment::class, $comment])
+                                <button class="btn btn-sm btn-primary" data-bs-toggle="modal"
+                                    data-bs-target="#edit-confirm-modal"><i class="far fa-trash-alt">
+                                        <span></i> Edit this comment</span>
+                                </button>
+                                <button class="btn btn-sm btn-danger" data-bs-toggle="modal"
+                                    data-bs-target="#delete-confirm-modal-comment" onClick=><i class="far fa-trash-alt">
+                                        <span></i> Delete this comment</span>
+                                </button>
+                            @endcan
+                        </div>
                     </li>
                     <br />
                 @empty
@@ -172,6 +198,68 @@
                 @endforelse
             </ul>
 
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="delete-confirm-modal-comment" data-bs-backdrop="static" data-bs-keyboard="false"
+            tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">Confirm delete</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        {{-- TODO: Title --}}
+                        Are you sure you want to delete your comment?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-danger"
+                            onclick="document.getElementById('delete-comment-form').submit();">
+                            Yes, delete this comment
+                        </button>
+
+                        {{-- TODO: Route, directives --}}
+                        <form id="delete-comment-form" action="{{ route('comments.destroy', $comment, $item) }}"
+                            method="POST" class="d-none">
+                            @method('DELETE')
+                            @csrf
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- Modal -->
+        <div class="modal fade" id="edit-confirm-modal" data-bs-backdrop="static" data-bs-keyboard="false"
+            tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">Confirm delete</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        {{-- TODO: Title --}}
+                        Are you sure you want to delete item <strong>{{ $item->name }}</strong>?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-danger"
+                            onclick="document.getElementById('delete-item-form').submit();">
+                            Yes, delete this item
+                        </button>
+
+                        {{-- TODO: Route, directives --}}
+                        <form id="delete-item-form" action="{{ route('items.destroy', $item) }}" method="POST"
+                            class="d-none">
+                            @method('DELETE')
+                            @csrf
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {{ $item->image }}
+            {{ $image }}
         </div>
     </div>
 @endsection
