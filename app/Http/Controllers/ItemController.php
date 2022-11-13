@@ -198,7 +198,6 @@ class ItemController extends Controller
         $item->image = $image;
         $item->save();
 
-        // Category-k hozzárendelése a item-hoz az id lista alapján
         if (isset($validated["labels"])) {
             // A sync azt fogja csinálni, hogy csak a megadott kategóriák lesznek hozzárendelve
             $item->labels()->sync($validated["labels"]);

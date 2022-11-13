@@ -74,7 +74,6 @@ class LabelController extends Controller
         ]);
 
 
-        // Post adatainak frissítése
         $label->name = $validated["name"];
         $label->color = $validated["color"];
         $label->display = $validated["display"];
