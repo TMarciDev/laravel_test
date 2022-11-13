@@ -33,7 +33,6 @@ class CommentController extends Controller
 
         Session::flash("comment_created");
 
-        // return redirect()->route('categories.create');
         return Redirect::route("items.show", $itemId);
     }
 
@@ -44,7 +43,6 @@ class CommentController extends Controller
             "text" => "required",
         ]);
 
-        error_log($request["text"]);
         $comment->text = $validated["text"];
         $comment->save();
 

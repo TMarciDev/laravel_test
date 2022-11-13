@@ -59,7 +59,7 @@
 
 
             <div class="form-group row mb-3">
-                <label for="labels" class="col-sm-2 col-form-label py-0">Categories</label>
+                <label for="labels" class="col-sm-2 col-form-label py-0">Labels</label>
                 <div class="col-sm-10">
                     <div class="row">
                         @forelse ($labels->chunk(4) as $chunk)

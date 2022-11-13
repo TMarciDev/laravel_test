@@ -52,7 +52,6 @@ class LabelController extends Controller
 
         Session::flash("label_created", $validated["name"]);
 
-        // return redirect()->route('categories.create');
         return Redirect::route("labels.create");
     }
 

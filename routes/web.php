@@ -10,22 +10,13 @@ Route::get("/", function () {
     return redirect()->route("items.index");
 });
 
-// Route::resource('posts', PostController::class);
-// Route::resource('categories', CategoryController::class);
 
 // Egyszerre:
 Route::resources([
     "items" => ItemController::class,
     "labels" => LabelController::class,
     "comments" => CommentController::class,
-    //"posts" => PostController::class,
-    //"categories" => CategoryController::class,
 ]);
 
-// Route::get('/posts', function () {
-//     return view('posts.index', [
-//         'users_count' => User::count(),
-//     ]);
-// })->name('posts.index');
 
 Auth::routes();

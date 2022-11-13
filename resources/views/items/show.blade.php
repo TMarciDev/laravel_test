@@ -55,13 +55,6 @@
                 </p>
 
                 <div class="mb-2">
-                    {{-- TODO: Read item categories from DB
-                    @foreach ($item->categories as $category)
-                    <a href="{{ route('categories.show', $category) }}" class="text-decoration-none">
-                        <span class="badge bg-{{ $category->style }}">{{ $category->name }}</span>
-                    </a>
-                    @endforeach
-                --}}
                     @forelse ($labels as $label)
                         <span class="badge" style="background-color: {{ $label->color }}">{{ $label->name }}</span>
                     @empty
