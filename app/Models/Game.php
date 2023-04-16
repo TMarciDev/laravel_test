@@ -11,7 +11,7 @@ class Game extends Model
 
     public function events()
     {
-        return $this->hasMany(Event::class, "event_id");
+        return $this->hasMany(Event::class, "game_id");
     }
 
     public function homeTeam()

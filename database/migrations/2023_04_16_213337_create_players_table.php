@@ -18,6 +18,14 @@ return new class extends Migration
             $table->string('name');
             $table->integer('number');
             $table->date('birthdate');
+
+            $table->unsignedBigInteger("team_id")->nullable();
+            $table
+                ->foreign("team_id")
+                ->references("id")
+                ->on("teams")
+                ->onDelete("cascade");
+
             $table->timestamps();
         });
     }

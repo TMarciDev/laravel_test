@@ -9,13 +9,13 @@ class Player extends Model
 {
     use HasFactory;
 
-    public function events()
-    {
-        return $this->hasMany(Event::class, "event_id");
-    }
-
     public function team()
     {
         return $this->belongsTo(Team::class, "team_id");
     }
+    public function events()
+    {
+        return $this->hasMany(Event::class, "player_id");
+    }
+
 }

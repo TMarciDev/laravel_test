@@ -17,6 +17,21 @@ return new class extends Migration
             $table->id();
             $table->enum("type", ['gól', "öngól", "sárga lap", "piros lap"]);
             $table->integer("minute");
+
+            $table->unsignedBigInteger("game_id")->nullable();
+            $table->unsignedBigInteger("player_id")->nullable();
+
+            $table
+                ->foreign("game_id")
+                ->references("id")
+                ->on("games")
+                ->onDelete("cascade");
+            $table
+                ->foreign("player_id")
+                ->references("id")
+                ->on("players")
+                ->onDelete("cascade");
+
             $table->timestamps();
         });
     }

@@ -17,6 +17,22 @@ return new class extends Migration
             $table->id();
             $table->dateTime("start");
             $table->boolean("finished");
+
+            $table->unsignedBigInteger("home_team_id")->nullable();
+            $table->unsignedBigInteger("away_team_id")->nullable();
+
+            $table
+                ->foreign("home_team_id")
+                ->references("id")
+                ->on("teams")
+                ->onDelete("cascade");
+
+            $table
+                ->foreign("away_team_id")
+                ->references("id")
+                ->on("teams")
+                ->onDelete("cascade");
+
             $table->timestamps();
         });
     }
