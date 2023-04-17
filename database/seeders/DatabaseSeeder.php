@@ -73,7 +73,6 @@ class DatabaseSeeder extends Seeder
 
         });
 
-        //* N - N
         $users->each(function ($user) use (&$teams) {
             if(rand(1, 10) > 3) {
                 $user
