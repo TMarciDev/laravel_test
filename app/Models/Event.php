@@ -13,7 +13,7 @@ class Event extends Model
     {
         return $this->belongsTo(Player::class, "player_id");
     }
-    public function event()
+    public function game()
     {
         return $this->belongsTo(Game::class, "game_id");
     }

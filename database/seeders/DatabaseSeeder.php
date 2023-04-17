@@ -37,7 +37,50 @@ class DatabaseSeeder extends Seeder
         $games = \App\Models\Game::factory(rand(23, 65))->create();
         $events = \App\Models\Event::factory(rand(100, 180))->create();
 
+        $players->each(function ($player) use (&$teams) {
+            $player
+                ->team()
+                ->associate($teams->random())
+                ->save();
+        });
 
+        $games->each(function ($game) use (&$teams) {
+            $home_team = $teams->random();
+            $away_team = $teams->random();
+            while ($home_team == $away_team) {
+                $away_team = $teams->random();
+            }
+
+            $game
+                ->homeTeam()
+                ->associate($home_team)
+                ->save();
+            $game
+                ->awayTeam()
+                ->associate($away_team)
+                ->save();
+        });
+
+        $events->each(function ($event) use (&$games, &$players) {
+            $event
+                ->game()
+                ->associate($games->random())
+                ->save();
+            $event
+                ->player()
+                ->associate($players->random())
+                ->save();
+
+        });
+
+        //* N - N
+        $users->each(function ($user) use (&$teams) {
+            if(rand(1, 10) > 3) {
+                $user
+                ->teams()
+                ->sync($teams->random(rand(1, $teams->count())));
+            }
+        });
 
         // TODO: delete this
         // ItemFactory:
