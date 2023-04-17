@@ -16,8 +16,11 @@ class TeamFactory extends Factory
      */
     public function definition()
     {
+        $name = fake()->word();
         return [
-            //
+            "name" => $name,
+            "shortname" => substr($name, 0, rand(2, 4)),
+            "image" => null,
         ];
     }
 }

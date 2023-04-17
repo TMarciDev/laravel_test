@@ -17,7 +17,8 @@ class GameFactory extends Factory
     public function definition()
     {
         return [
-            //
+            "start" => fake()->date('Y_m_d H:i:s'),
+            "finished" => rand(0,1) == 0
         ];
     }
 }

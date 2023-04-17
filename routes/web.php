@@ -13,6 +13,8 @@ Route::get("/", function () {
 
 // Egyszerre:
 Route::resources([
+
+    // TODO: delete this
     "items" => ItemController::class,
     "labels" => LabelController::class,
     "comments" => CommentController::class,

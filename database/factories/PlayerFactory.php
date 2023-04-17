@@ -17,7 +17,9 @@ class PlayerFactory extends Factory
     public function definition()
     {
         return [
-            //
+            "name" => fake()->name(),
+            "number" => rand(1, 99),
+            "birthdate" => fake()->date('Y_m_d'),
         ];
     }
 }
