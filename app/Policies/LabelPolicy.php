@@ -28,3 +28,4 @@ class LabelPolicy
         return $user->is_admin;
     }
 }
+// TODO: delete this

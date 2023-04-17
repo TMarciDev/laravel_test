@@ -14,8 +14,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // user1@szerveroldali.hu
-        // user2@...
         $users_count = rand(5, 10);
         $users = collect();
         $users->add(
@@ -34,12 +32,13 @@ class DatabaseSeeder extends Seeder
             );
         }
 
+
+        // TODO: delete this
         // ItemFactory:
             $items = \App\Models\Item::factory(rand(10, 20))->create();
         // CommentFactory:
             $comments = \App\Models\Comment::factory(rand(40, 50))->create();
         // LabelFactory:
-            //TODO: 2 way connections
             $labels = \App\Models\Label::factory(rand(9, 10))->create();
         // Connections:
 
