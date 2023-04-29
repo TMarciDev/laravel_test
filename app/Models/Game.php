@@ -9,7 +9,7 @@ class Game extends Model
 {
     use HasFactory;
 
-    public function game()
+    public function events()
     {
         return $this->hasMany(Event::class, "game_id");
     }

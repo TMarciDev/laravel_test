@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Game;
+use App\Models\Player;
 
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -17,8 +18,14 @@ class MerkozesekController extends Controller
     public function index()
     {
         return view("merkozesek.index", [
-            //TODO: mi a fasz
-            "games" => Game::all()
+            "games" => Game::orderBy('start', 'desc')->paginate(6),
+            "ongoing" => Game::all()->whereIn('finished', 0),
+            "players" => Player::all(),
+        ]);
+    }
+    public function show(Game $game)
+    {
+        return view("merkozesek.show", [
         ]);
     }
 }

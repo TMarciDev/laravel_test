@@ -35,7 +35,7 @@ class DatabaseSeeder extends Seeder
         $teams = \App\Models\Team::factory(rand(10, 20))->create();
         $players = \App\Models\Player::factory(rand(200, 300))->create();
         $games = \App\Models\Game::factory(rand(23, 65))->create();
-        $events = \App\Models\Event::factory(rand(100, 180))->create();
+        $events = \App\Models\Event::factory(rand(200, 300))->create();
 
         $players->each(function ($player) use (&$teams) {
             $player
