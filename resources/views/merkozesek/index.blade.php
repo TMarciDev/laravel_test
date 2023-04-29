@@ -73,9 +73,6 @@
         <div>
             <div style="display: flex; flex-wrap: wrap; margin-top: 10px">
                 @forelse ($games as $game)
-                    @php
-                        $cleanGame = clone $game;
-                    @endphp
                     <div class="col-12 col-md-6 col-lg-4 mb-3 d-flex align-self-stretch">
                         <div class="card w-100">
                             <img src="{{ asset('images/default_game_cover.jpg') }}" class="card-img-top" alt="cover">
@@ -133,7 +130,6 @@
                                 </div>
                             </div>
                             <div class="card-footer">
-                                {{ print $cleanGame }}
                                 <a href="{{ route('merkozesek.show', $game->id) }}" class="btn btn-primary">
                                     <span>View game</span> <i class="fas fa-angle-right"></i>
                                 </a>

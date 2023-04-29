@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Game;
 use App\Models\Player;
+use App\Models\Event;
 
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -26,10 +27,11 @@ class MerkozesekController extends Controller
     public function show($gameId)
     {
         return view("merkozesek.show", [
-            "game" => Game::all()->whereIn('id', $gameId),
-            "events" => Game::find($gameId)->Events,
+            "game" => Game::find($gameId),
+            "events" => Event::orderBy('minute', 'desc')->get()->whereIn('game_id', $gameId),
             "homeTeam" => Game::find($gameId)->HomeTeam,
             "awayTeam" => Game::find($gameId)->AwayTeam,
+            "players" => Player::all(),
         ]);
     }
 }
