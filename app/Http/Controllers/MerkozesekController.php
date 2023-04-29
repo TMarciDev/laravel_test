@@ -23,9 +23,13 @@ class MerkozesekController extends Controller
             "players" => Player::all(),
         ]);
     }
-    public function show(Game $game)
+    public function show($gameId)
     {
         return view("merkozesek.show", [
+            "game" => Game::all()->whereIn('id', $gameId),
+            "events" => Game::find($gameId)->Events,
+            "homeTeam" => Game::find($gameId)->HomeTeam,
+            "awayTeam" => Game::find($gameId)->AwayTeam,
         ]);
     }
 }
