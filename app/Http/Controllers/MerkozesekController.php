@@ -20,7 +20,7 @@ class MerkozesekController extends Controller
     {
         return view("merkozesek.index", [
             "games" => Game::orderBy('start', 'desc')->paginate(6),
-            "ongoing" => Game::all()->whereIn('finished', 0),
+            "ongoing" => Game::all()->whereIn('finished', 0)->sortBy('start', -1),
             "players" => Player::all(),
         ]);
     }

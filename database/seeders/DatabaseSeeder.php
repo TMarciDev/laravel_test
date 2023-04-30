@@ -62,13 +62,16 @@ class DatabaseSeeder extends Seeder
         });
 
         $events->each(function ($event) use (&$games, &$players) {
+            $randomGame = $games->random();
+            $randomHomePlayer = $randomGame->HomeTeam->Players->random();
+            $randomAwayPlayer = $randomGame->HomeTeam->Players->random();
             $event
                 ->game()
-                ->associate($games->random())
+                ->associate($randomGame)
                 ->save();
             $event
                 ->player()
-                ->associate($players->random())
+                ->associate(rand(0, 1) == 1 ? $randomHomePlayer : $randomAwayPlayer)
                 ->save();
 
         });

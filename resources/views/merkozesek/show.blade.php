@@ -34,15 +34,15 @@
             @php
                 $homeGoals = 0;
                 $awayGoals = 0;
-                foreach ($events as $event) {
+                foreach ($game->events as $event) {
                     if ($event->type == 'gól') {
-                        if ($players[$event->player_id]->Team->id == $game->HomeTeam->id) {
+                        if ($event->Player->Team->id == $game->HomeTeam->id) {
                             $homeGoals++;
                         } else {
                             $awayGoals++;
                         }
                     } elseif ($event->type == 'öngól') {
-                        if ($players[$event->player_id]->Team->id == $game->HomeTeam->id) {
+                        if ($event->Player->Team->id == $game->HomeTeam->id) {
                             $awayGoals++;
                         } else {
                             $homeGoals++;
@@ -56,8 +56,8 @@
             <ul>
                 @foreach ($events as $event)
                     <li>
-                        {{-- Todo: finish this --}}
-                        {{ $event->type }}
+                        {{ $event->minute }}. perc: {{ $event->type }}, {{ $event->Player->name }},
+                        {{ $event->Player->Team->name }}
                     </li>
                 @endforeach
             </ul>

@@ -5,69 +5,66 @@
         <h1>Mérkőzések oldal</h1>
         <div style="display: flex; flex-wrap: wrap">
             @forelse ($ongoing as $game)
-                <div style="border: 5px solid green; margin: 10px; width: 30vw">
-                    <div style="display: flex; flex-direction: column; align-items: center; margin: 20px;">
-                        <p class="mb-0">
-                            <span>
-                                <i class="far fa-calendar-alt"></i>
-                                <span>Schedulet at: {{ $game->start }}</span>
-                            </span>
-                        </p>
-                        <div>
-                            <h3>
-                                {{ $game->HomeTeam->name }}
-                            </h3>
-                            <img id="cover_preview_image" {{-- TODO: Cover --}}
-                                src="{{ asset($game->HomeTeam->image ? 'storage/' . $game->HomeTeam->image : 'images/team_placeholder.jpeg') }}"
-                                width="350px" alt="Cover preview" class="my-3">
-                        </div>
-                        <h1>-VS-</h1>
-                        <div>
-                            <h3>
-                                {{ $game->AwayTeam->name }}
-                            </h3>
-                            <img id="cover_preview_image" {{-- TODO: Cover --}}
-                                src="{{ asset($game->AwayTeam->image ? 'storage/' . $game->AwayTeam->image : 'images/team_placeholder.jpeg') }}"
-                                width="350px" alt="Cover preview" class="my-3">
-                        </div>
-                        <div>
-                            @if (strtotime($game->start) < time())
-                                @php
-                                    $homeGoals = 0;
-                                    $awayGoals = 0;
-                                    foreach ($game->events as $event) {
-                                        if ($event->type == 'gól') {
-                                            if ($players[$event->player_id]->Team->id == $game->HomeTeam->id) {
-                                                $homeGoals++;
-                                            } else {
-                                                $awayGoals++;
-                                            }
-                                        } elseif ($event->type == 'öngól') {
-                                            if ($players[$event->player_id]->Team->id == $game->HomeTeam->id) {
-                                                $awayGoals++;
-                                            } else {
-                                                $homeGoals++;
+                @if (strtotime($game->start) < time())
+                    <div style="border: 5px solid green; margin: 10px; width: 30vw">
+                        <div style="display: flex; flex-direction: column; align-items: center; margin: 20px;">
+                            <p class="mb-0">
+                                <span>
+                                    <i class="far fa-calendar-alt"></i>
+                                    <span>Schedulet at: {{ $game->start }}</span>
+                                </span>
+                            </p>
+                            <div>
+                                <h3>
+                                    {{ $game->HomeTeam->name }}
+                                </h3>
+                                <img id="cover_preview_image" {{-- TODO: Cover --}}
+                                    src="{{ asset($game->HomeTeam->image ? 'storage/' . $game->HomeTeam->image : 'images/team_placeholder.jpeg') }}"
+                                    width="350px" alt="Cover preview" class="my-3">
+                            </div>
+                            <h1>-VS-</h1>
+                            <div>
+                                <h3>
+                                    {{ $game->AwayTeam->name }}
+                                </h3>
+                                <img id="cover_preview_image" {{-- TODO: Cover --}}
+                                    src="{{ asset($game->AwayTeam->image ? 'storage/' . $game->AwayTeam->image : 'images/team_placeholder.jpeg') }}"
+                                    width="350px" alt="Cover preview" class="my-3">
+                            </div>
+                            <div>
+                                @if (strtotime($game->start) < time())
+                                    @php
+                                        $homeGoals = 0;
+                                        $awayGoals = 0;
+                                        foreach ($game->events as $event) {
+                                            if ($event->type == 'gól') {
+                                                if ($event->Player->Team->id == $game->HomeTeam->id) {
+                                                    $homeGoals++;
+                                                } else {
+                                                    $awayGoals++;
+                                                }
+                                            } elseif ($event->type == 'öngól') {
+                                                if ($event->Player->Team->id == $game->HomeTeam->id) {
+                                                    $awayGoals++;
+                                                } else {
+                                                    $homeGoals++;
+                                                }
                                             }
                                         }
-                                    }
-                                @endphp
-                                <h1>{{ $game->HomeTeam->name }} - {{ $homeGoals }} : {{ $awayGoals }} -
-                                    {{ $game->AwayTeam->name }}</h1>
-                            @endif
-                        </div>
-                        <div class="card-footer">
-                            <a href="{{ route('merkozesek.show', $game) }}" class="btn btn-primary">
-                                <span>View game</span> <i class="fas fa-angle-right"></i>
-                            </a>
+                                    @endphp
+                                    <h1>{{ $game->HomeTeam->name }} - {{ $homeGoals }} : {{ $awayGoals }} -
+                                        {{ $game->AwayTeam->name }}</h1>
+                                @endif
+                            </div>
+                            <div class="card-footer">
+                                <a href="{{ route('merkozesek.show', $game) }}" class="btn btn-primary">
+                                    <span>View game</span> <i class="fas fa-angle-right"></i>
+                                </a>
+                            </div>
                         </div>
                     </div>
-                </div>
+                @endif
             @empty
-                <div class="col-12">
-                    <div class="alert alert-warning" role="alert">
-                        No games found!
-                    </div>
-                </div>
             @endforelse
         </div>
         <div>
@@ -108,13 +105,13 @@
                                             $awayGoals = 0;
                                             foreach ($game->events as $event) {
                                                 if ($event->type == 'gól') {
-                                                    if ($players[$event->player_id]->Team->id == $game->HomeTeam->id) {
+                                                    if ($event->Player->Team->id == $game->HomeTeam->id) {
                                                         $homeGoals++;
                                                     } else {
                                                         $awayGoals++;
                                                     }
                                                 } elseif ($event->type == 'öngól') {
-                                                    if ($players[$event->player_id]->Team->id == $game->HomeTeam->id) {
+                                                    if ($event->Player->Team->id == $game->HomeTeam->id) {
                                                         $awayGoals++;
                                                     } else {
                                                         $homeGoals++;

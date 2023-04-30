@@ -16,9 +16,12 @@ class GameFactory extends Factory
      */
     public function definition()
     {
+        $time = fake()->dateTimeBetween('-1 week', '+1 week');
+        $strTime = strtotime($time->format('Y-m-d h:m:s'));
+        print $strTime - time() . " ";
         return [
-            "start" => fake()->dateTimeBetween('-20 week', '+15 week'),
-            "finished" => rand(0,10) > 0,
+            "start" => $time,
+            "finished" => !($strTime > time() - 20000),
         ];
     }
 }
