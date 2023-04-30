@@ -23,6 +23,10 @@ class EventController extends Controller
         $gameId = $request["gameId"];
         $game = Game::find($gameId);
 
+        if($game->finished) {
+            $fail("The game already ended");
+        }
+
         $validated = $request->validate([
             "type" => ['required', Rule::in(['gól', 'öngól', 'piros lap', 'sárga lap'])],
             "minute" => 'required|integer|between:0,110',

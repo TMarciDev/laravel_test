@@ -16,7 +16,8 @@ use App\Http\Controllers\CommentController;
 Route::get("/", function () {
     return redirect()->route("home.index");
 });
-
+Route::post('/merkozesek/{gameId}/stop', 'App\Http\Controllers\MerkozesekController@stop')
+    ->name('merkozesek.stop');
 
 // Egyszerre:
 Route::resources([

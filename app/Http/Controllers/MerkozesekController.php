@@ -35,4 +35,13 @@ class MerkozesekController extends Controller
             "awayPlayers" => Game::find($gameId)->AwayTeam->Players,
         ]);
     }
+    public function stop($gameId)
+    {
+        $this->authorize('stop', App\Game::class);
+        $game = Game::find($gameId);
+        $game->finished = true;
+        $game->save();
+        Session::flash("game_stopped");
+        return Redirect::route("merkozesek.show", $gameId);
+    }
 }

@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\Game;
+use App\Models\Event;
+
+
 // use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use App\Models\Label;
@@ -19,6 +23,7 @@ class AuthServiceProvider extends ServiceProvider
     protected $policies = [
         // 'App\Models\Model' => 'App\Policies\ModelPolicy',
         Event::class => EventPolicy::class,
+        Game::class => GamePolicy::class,
         // TODO: delete this
         Label::class => LabelPolicy::class,
         Item::class => ItemPolicy::class,
