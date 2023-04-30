@@ -34,8 +34,8 @@ class DatabaseSeeder extends Seeder
 
         $teams = \App\Models\Team::factory(rand(10, 20))->create();
         $players = \App\Models\Player::factory(rand(200, 300))->create();
-        $games = \App\Models\Game::factory(rand(23, 65))->create();
-        $events = \App\Models\Event::factory(rand(200, 300))->create();
+        $games = \App\Models\Game::factory(rand(100, 120))->create();
+        $events = \App\Models\Event::factory(rand(400, 500))->create();
 
         $players->each(function ($player) use (&$teams) {
             $player
@@ -64,7 +64,7 @@ class DatabaseSeeder extends Seeder
         $events->each(function ($event) use (&$games, &$players) {
             $randomGame = $games->random();
             $randomHomePlayer = $randomGame->HomeTeam->Players->random();
-            $randomAwayPlayer = $randomGame->HomeTeam->Players->random();
+            $randomAwayPlayer = $randomGame->AwayTeam->Players->random();
             $event
                 ->game()
                 ->associate($randomGame)

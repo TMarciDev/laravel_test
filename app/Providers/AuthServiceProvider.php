@@ -18,6 +18,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         // 'App\Models\Model' => 'App\Policies\ModelPolicy',
+        Event::class => EventPolicy::class,
         // TODO: delete this
         Label::class => LabelPolicy::class,
         Item::class => ItemPolicy::class,

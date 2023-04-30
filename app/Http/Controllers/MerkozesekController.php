@@ -31,7 +31,8 @@ class MerkozesekController extends Controller
             "events" => Event::orderBy('minute', 'desc')->get()->whereIn('game_id', $gameId),
             "homeTeam" => Game::find($gameId)->HomeTeam,
             "awayTeam" => Game::find($gameId)->AwayTeam,
-            "players" => Player::all(),
+            "homePlayers" => Game::find($gameId)->HomeTeam->Players,
+            "awayPlayers" => Game::find($gameId)->AwayTeam->Players,
         ]);
     }
 }

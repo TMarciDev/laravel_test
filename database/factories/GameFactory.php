@@ -18,7 +18,6 @@ class GameFactory extends Factory
     {
         $time = fake()->dateTimeBetween('-1 week', '+1 week');
         $strTime = strtotime($time->format('Y-m-d h:m:s'));
-        print $strTime - time() . " ";
         return [
             "start" => $time,
             "finished" => !($strTime > time() - 20000),

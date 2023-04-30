@@ -37,22 +37,6 @@
             <div class="form-group row mb-3">
                 <label for="style" class="col-sm-2 col-form-label py-0">Color*</label>
                 <div class="col-sm-10">
-                    {{--
-                    @foreach ($styles as $style)
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="style" id="{{ $style }}"
-                            value="{{ $style }}" @checked(old('style') == $style)>
-                        <label class="form-check-label" for="{{ $style }}">
-                            <span class="badge bg-{{ $style }}">{{ $style }}</span>
-                        </label>
-                        </div>
-                    @endforeach
-                    @error('style')
-                        <small class="text-danger">
-                            {{ $message }}
-                        </small>
-                    @enderror
-                    --}}
                     <input type="color" name="color" id="color" value="#9090ff">
                     @error('color')
                         <small class="text-danger">

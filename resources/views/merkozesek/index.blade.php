@@ -57,7 +57,7 @@
                                 @endif
                             </div>
                             <div class="card-footer">
-                                <a href="{{ route('merkozesek.show', $game) }}" class="btn btn-primary">
+                                <a href="{{ route('merkozesek.show', $game->id) }}" class="btn btn-primary">
                                     <span>View game</span> <i class="fas fa-angle-right"></i>
                                 </a>
                             </div>
