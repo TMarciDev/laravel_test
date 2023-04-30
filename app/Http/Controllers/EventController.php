@@ -21,12 +21,23 @@ class EventController extends Controller
     {
         $this->authorize('create', App\Event::class);
         $gameId = $request["gameId"];
-
+        $game = Game::find($gameId);
 
         $validated = $request->validate([
             "type" => ['required', Rule::in(['gól', 'öngól', 'piros lap', 'sárga lap'])],
             "minute" => 'required|integer|between:0,110',
-            "player_id" => "numeric|integer|exists:players,id",
+            "player_id" => [
+                'required',
+                'integer',
+                function ($attribute, $value, $fail) use ($game) {
+                    $player1 = $game->HomeTeam->Players->find($value);
+                    $player2 = $game->AwayTeam->Players->find($value);
+
+                    if (!$player1 && !$player2) {
+                        $fail("The selected player is not in any of the teams.");
+                    }
+                }
+            ]
         ]);
         $event = new Event();
         $event->type = $validated['type'];

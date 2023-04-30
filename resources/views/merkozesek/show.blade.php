@@ -4,7 +4,7 @@
     <div style="display: flex; align-items:center; flex-direction:column">
         @if (Session::has('event_created'))
             <div class="alert alert-success" role="alert">
-                Event ({{ Session::get('event_created') }}) successfully created!
+                Event successfully created!
             </div>
         @endif
         <a href="{{ route('home.index') }}"><i class="fas fa-long-arrow-alt-left"></i> Back to the homepage</a>
@@ -73,16 +73,21 @@
                     <div class="form-group row mb-3">
                         <label for="type" class="col-sm-2 col-form-label">Event típus*</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control @error('type') is-invalid @enderror" id="type"
-                                name="type" value="{{ old('type') }}">
+                            <select class="form-select @error('type') is-invalid @enderror" id="type" name="type">
+                                <option value="">-- válasszon --</option>
+                                <option value="gól" {{ old('type') == 'gól' ? 'selected' : '' }}>Gól</option>
+                                <option value="öngól" {{ old('type') == 'öngól' ? 'selected' : '' }}>Öngól</option>
+                                <option value="piros lap" {{ old('type') == 'piros lap' ? 'selected' : '' }}>Piros lap</option>
+                                <option value="sárga lap" {{ old('type') == 'sárga lap' ? 'selected' : '' }}>Sárga lap</option>
+                            </select>
                             @error('type')
                                 <div class="invalid-feedback">
-                                    {{-- A $message ugyanúgy elérhető az error alatt, mint a ciklusok alatt a $loop --}}
                                     {{ $message }}
                                 </div>
                             @enderror
                         </div>
                     </div>
+
 
                     <div class="form-group row mb-3">
                         <label for="style" class="col-sm-2 col-form-label py-0">minute*</label>
@@ -97,24 +102,50 @@
                     </div>
 
                     <div class="form-group row mb-3">
-                        <label for="style" class="col-sm-2 col-form-label py-0">player_id*</label>
+                        <label for="player_id" class="col-sm-2 col-form-label py-0">Player*</label>
                         <div class="col-sm-10">
-                            <input type="number" name="player_id" id="player_id" value="10">
-                            @error('player_id')
-                                <small class="text-danger">
-                                    {{ $message }}
-                                </small>
-                            @enderror
+                            <h1 class="text-success mb-2">{{ $homeTeam->name }}</h1>
+                            @foreach ($homeTeam->players as $player)
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="player_id"
+                                        id="player_{{ $player->id }}" value="{{ $player->id }}"
+                                        {{ old('player_id') == $player->id ? 'checked' : '' }}>
+                                    <label class="form-check-label text-success"
+                                        for="player_{{ $player->id }}">{{ $player->name }}</label>
+                                </div>
+                            @endforeach
                         </div>
                     </div>
 
-
-                    <div class="text-center">
-                        <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Create label</button>
+                    <div class="form-group row mb-3">
+                        <label for="player_id" class="col-sm-2 col-form-label py-0"></label>
+                        <div class="col-sm-10">
+                            <h1 class="text-danger mb-2">{{ $awayTeam->name }}</h1>
+                            @foreach ($awayTeam->players as $player)
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="player_id"
+                                        id="player_{{ $player->id }}" value="{{ $player->id }}"
+                                        {{ old('player_id') == $player->id ? 'checked' : '' }}>
+                                    <label class="form-check-label text-danger"
+                                        for="player_{{ $player->id }}">{{ $player->name }}</label>
+                                </div>
+                            @endforeach
+                        </div>
                     </div>
 
-                </form>
-            @endcan
-        @endif
+                    @error('player_id')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
+
+        </div>
+
+
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Create event</button>
+        </div>
+
+        </form>
+    @endcan
+    @endif
     </div>
 @endsection
