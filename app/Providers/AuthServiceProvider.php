@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Game;
+use App\Models\Team;
 use App\Models\Event;
 
 
@@ -24,6 +25,7 @@ class AuthServiceProvider extends ServiceProvider
         // 'App\Models\Model' => 'App\Policies\ModelPolicy',
         Event::class => EventPolicy::class,
         Game::class => GamePolicy::class,
+        Team::class => TeamPolicy::class,
         // TODO: delete this
         Label::class => LabelPolicy::class,
         Item::class => ItemPolicy::class,

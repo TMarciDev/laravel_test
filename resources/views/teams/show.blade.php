@@ -2,6 +2,9 @@
 @section('title', $team->name)
 @section('content')
     <div style="display: flex; align-items:center; flex-direction:column">
+        <img id="cover_preview_image" {{-- TODO: Cover --}}
+            src="{{ asset($team->image ? 'storage/' . $team->image : 'images/team_placeholder.jpeg') }}" width="350px"
+            alt="Cover preview" class="my-3">
         <h1>Mérkőzések</h1>
 
         @forelse ($games as $game)
@@ -44,6 +47,7 @@
                 Sárga lapok: {{ count($events->where('player_id', $player->id)->where('type', 'sárga lap')) }}
             </div>
         @empty
+            <span>No players so far</span>
         @endforelse
     </div>
 @endsection

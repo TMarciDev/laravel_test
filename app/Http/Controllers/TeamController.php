@@ -35,4 +35,48 @@ class TeamController extends Controller
             "events" => Event::all()
         ]);
     }
+    public function create()
+    {
+        return view("teams.create", []);
+    }
+
+    public function store(Request $request)
+    {
+        $this->authorize('create', App\Team::class);
+
+        $validated = $request->validate([
+            "name" => "required|min:3",
+            "shortname" => "required|min:3",
+            "image" => "nullable|file|image|max:4096",
+        ]);
+
+        $image = null;
+
+        if ($request->hasFile("image")) {
+            $file = $request->file("image");
+
+            $image =
+                "team_image_" .
+                Str::random(10) .
+                "." .
+                $file->getClientOriginalExtension();
+
+            Storage::disk("public")->put(
+                // File útvonala
+                $image,
+                // File tartalma
+                $file->get()
+            );
+        }
+
+        $team = new Team();
+        $team->name = $validated["name"];
+        $team->shortname = $validated["shortname"];
+        $team->image = $image;
+        $team->save();
+
+        Session::flash("team_created", $validated["name"]);
+
+        return Redirect::route("teams.show", $team);
+    }
 }
