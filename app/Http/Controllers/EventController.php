@@ -54,4 +54,19 @@ class EventController extends Controller
         Session::flash("event_created");
         return Redirect::route("merkozesek.show", $gameId);
     }
+
+    public function destroy($id)
+    {
+        $event = Event::find($id);
+        $gameId = $event->game_id;
+
+        if (!$event) {
+            abort(404);
+        }
+
+        $event->delete();
+
+        Session::flash("event_deleted");
+        return redirect()->route("merkozesek.show", $gameId);
+    }
 }

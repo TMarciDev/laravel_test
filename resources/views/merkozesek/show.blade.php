@@ -7,13 +7,33 @@
                 Event successfully created!
             </div>
         @endif
+        @if (Session::has('event_deleted'))
+            <div class="alert alert-success" role="alert">
+                Event successfully deleted!
+            </div>
+        @endif
         @if (Session::has('game_stopped'))
             <div class="alert alert-success" role="alert">
                 Game was stopped
             </div>
         @endif
         <a href="{{ route('home.index') }}"><i class="fas fa-long-arrow-alt-left"></i> Back to the homepage</a>
-        @if (!$game->finished)
+        @can('delete', App\Game::class)
+            @if (count($game->Events) == 0)
+                <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#delete-confirm-modal-game"><i
+                        class="far fa-trash-alt">
+                        <span></i> Delete this game</span>
+                </button>
+            @else
+                <p>Only a game without events can be deleted</p>
+            @endif
+        @endcan
+        @can('update', App\Game::class)
+            <a role="button" class="btn btn-sm btn-primary" href="{{ route('merkozesek.edit', $game) }}"><i
+                    class="far fa-edit"></i>
+                Edit game</a>
+        @endcan
+        @if (!$game->finished && strtotime($game->start) < time())
             <h1 style="color: lightgreen">Játék folyamatban van</h1>
             @can('stop', App\Game::class)
                 <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#delete-confirm-modal"><i
@@ -192,7 +212,7 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="staticBackdropLabel">Confirm delete</h5>
+                <h5 class="modal-title" id="staticBackdropLabel">Confirm stopping the game</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -246,4 +266,33 @@
         </div>
     </div>
 </div> <!-- Modal -->
+
+<!-- Modal -->
+<div class="modal fade" id="delete-confirm-modal-game" data-bs-backdrop="static" data-bs-keyboard="false"
+    tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Confirm delete</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete game?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger"
+                    onclick="document.getElementById('delete-game-form').submit();">
+                    Yes, delete this game
+                </button>
+
+                <form id="delete-game-form" action="{{ route('merkozesek.destroy', $game->id) }}" method="POST"
+                    class="d-none">
+                    @method('DELETE')
+                    @csrf
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection

@@ -2,8 +2,13 @@
 @section('title', 'Mérkőzések')
 @section('content')
     <div>
+        @if (Session::has('game_deleted'))
+            <div class="alert alert-success" role="alert">
+                Game was deleted succesfully
+            </div>
+        @endif
         <h1>Mérkőzések oldal</h1>
-        @can('create', App\Item::class)
+        @can('create', App\Game::class)
             <a role="button" class="btn btn-sm btn-primary" href="{{ route('merkozesek.create') }}"><i class="far fa-edit"></i>
                 Create a new Mérkőzés</a>
         @endcan

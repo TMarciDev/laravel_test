@@ -42,6 +42,13 @@ class MerkozesekController extends Controller
             "teams" => Team::all(),
         ]);
     }
+    public function edit($gameId)
+    {
+        return view("merkozesek.edit", [
+            "game" => Game::find($gameId),
+            "teams" => Team::all(),
+        ]);
+    }
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -53,10 +60,39 @@ class MerkozesekController extends Controller
         $game->start = $validated['start'];
         $game->home_team_id = $validated['home_team_id'];
         $game->away_team_id = $validated['away_team_id'];
-        $game->finished = true;
+        $game->finished = false;
         $game->save();
         Session::flash("game_created");
         return Redirect::route("merkozesek.create");
+    }
+    public function update(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'start' => ['required', 'date', 'after:now'],
+            'home_team_id' => 'required|different:away_team_id',
+            'away_team_id' => 'required',
+        ]);
+        $game = Game::findOrFail($id);
+        $game->start = $validated['start'];
+        $game->home_team_id = $validated['home_team_id'];
+        $game->away_team_id = $validated['away_team_id'];
+        $game->finished = false;
+        $game->save();
+        Session::flash("game_updated");
+        return Redirect::route("merkozesek.edit", $id);
+    }
+    public function destroy($id)
+    {
+        $game = Game::find($id);
+
+        if (!$game) {
+            abort(404);
+        }
+
+        $game->delete();
+
+        Session::flash("game_deleted");
+        return redirect()->route("merkozesek.index");
     }
     public function stop($gameId)
     {
