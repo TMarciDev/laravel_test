@@ -38,12 +38,15 @@ class MerkozesekController extends Controller
     }
     public function create()
     {
+        $this->authorize('create', App\Game::class);
         return view("merkozesek.create", [
             "teams" => Team::all(),
         ]);
     }
     public function edit($gameId)
     {
+        $this->authorize('update', App\Game::class);
+
         return view("merkozesek.edit", [
             "game" => Game::find($gameId),
             "teams" => Team::all(),
@@ -51,6 +54,8 @@ class MerkozesekController extends Controller
     }
     public function store(Request $request)
     {
+        $this->authorize('create', App\Game::class);
+
         $validated = $request->validate([
             'start' => ['required', 'date', 'after:now'],
             'home_team_id' => 'required|different:away_team_id',
@@ -67,6 +72,8 @@ class MerkozesekController extends Controller
     }
     public function update(Request $request, $id)
     {
+        $this->authorize('update', App\Game::class);
+
         $validated = $request->validate([
             'start' => ['required', 'date', 'after:now'],
             'home_team_id' => 'required|different:away_team_id',
@@ -83,6 +90,8 @@ class MerkozesekController extends Controller
     }
     public function destroy($id)
     {
+        $this->authorize('delete', App\Game::class);
+
         $game = Game::find($id);
 
         if (!$game) {

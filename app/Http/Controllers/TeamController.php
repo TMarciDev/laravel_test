@@ -37,6 +37,7 @@ class TeamController extends Controller
     }
     public function create()
     {
+        $this->authorize('create', App\Team::class);
         return view("teams.create", []);
     }
 
@@ -78,5 +79,70 @@ class TeamController extends Controller
         Session::flash("team_created", $validated["name"]);
 
         return Redirect::route("teams.show", $team);
+    }
+
+    public function edit($teamId)
+    {
+        $this->authorize('update', App\Team::class);
+
+        return view("teams.edit", [
+            "team" => Team::find($teamId),
+        ]);
+    }
+
+    public function update(Request $request, Team $team)
+    {
+        $this->authorize('update', App\Team::class);
+
+        $validated = $request->validate([
+            "name" => "required|min:3",
+            "shortname" => "required|min:3",
+            "image" => "nullable|file|image|max:4096",
+        ]);
+
+
+        $image = $team->image;
+        $remove_cover_image = isset($validated["image"]);
+
+        if ($request->hasFile("cover_image") && !$remove_cover_image) {
+            $file = $request->file("cover_image");
+
+            $image =
+                "team_image_" .
+                Str::random(10) .
+                "." .
+                $file->getClientOriginalExtension();
+
+            Storage::disk("public")->put(
+                // File útvonala
+                $image,
+                // File tartalma
+                $file->get()
+            );
+        }
+
+        if ($remove_cover_image) {
+            $image = null;
+        }
+
+        if (
+            $image != $team->image &&
+            $team->image !== null
+        ) {
+            Storage::disk("public")->delete($team->image);
+        }
+
+        $team->name = $validated["name"];
+        $team->shortname = $validated["shortname"];
+        $team->image = $image;
+        $team->save();
+
+        if (isset($validated["labels"])) {
+            $team->labels()->sync($validated["labels"]);
+        }
+
+        Session::flash("team_updated");
+
+        return Redirect::route("teams.show", $team->id);
     }
 }

@@ -6,7 +6,10 @@
             src="{{ asset($team->image ? 'storage/' . $team->image : 'images/team_placeholder.jpeg') }}" width="350px"
             alt="Cover preview" class="my-3">
         <h1>Mérkőzések</h1>
-
+        @can('update', App\Team::class)
+            <a role="button" class="btn btn-sm btn-primary" href="{{ route('teams.edit', $team->id) }}"><i class="far fa-edit"></i>
+                Edit team</a>
+        @endcan
         @forelse ($games as $game)
             <div>
                 Mérkőzés: {{ $game->start }}
