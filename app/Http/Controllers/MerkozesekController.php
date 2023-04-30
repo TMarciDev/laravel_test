@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Game;
 use App\Models\Player;
+use App\Models\Team;
 use App\Models\Event;
 
 use Illuminate\Support\Str;
@@ -34,6 +35,28 @@ class MerkozesekController extends Controller
             "homePlayers" => Game::find($gameId)->HomeTeam->Players,
             "awayPlayers" => Game::find($gameId)->AwayTeam->Players,
         ]);
+    }
+    public function create()
+    {
+        return view("merkozesek.create", [
+            "teams" => Team::all(),
+        ]);
+    }
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'start' => ['required', 'date', 'after:now'],
+            'home_team_id' => 'required|different:away_team_id',
+            'away_team_id' => 'required',
+        ]);
+        $game = new Game();
+        $game->start = $validated['start'];
+        $game->home_team_id = $validated['home_team_id'];
+        $game->away_team_id = $validated['away_team_id'];
+        $game->finished = true;
+        $game->save();
+        Session::flash("game_created");
+        return Redirect::route("merkozesek.create");
     }
     public function stop($gameId)
     {

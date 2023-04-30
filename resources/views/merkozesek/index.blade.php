@@ -3,6 +3,10 @@
 @section('content')
     <div>
         <h1>Mérkőzések oldal</h1>
+        @can('create', App\Item::class)
+            <a role="button" class="btn btn-sm btn-primary" href="{{ route('merkozesek.create') }}"><i class="far fa-edit"></i>
+                Create a new Mérkőzés</a>
+        @endcan
         <div style="display: flex; flex-wrap: wrap">
             @forelse ($ongoing as $game)
                 @if (strtotime($game->start) < time())
