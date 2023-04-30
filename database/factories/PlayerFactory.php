@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Comment>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Player>
  */
-class CommentFactory extends Factory
+class PlayerFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -17,8 +17,9 @@ class CommentFactory extends Factory
     public function definition()
     {
         return [
-            "text" => fake()->paragraphs(rand(1, 4), true),
+            "name" => fake()->name(),
+            "number" => rand(1, 99),
+            "birthdate" => fake()->date('Y_m_d'),
         ];
     }
 }
-// TODO: delete this

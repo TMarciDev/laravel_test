@@ -1,4 +1,8 @@
+https://gist.github.com/turierik/409e84f92a86c4c96aa4058915733d4b
+
 https://github.com/totadavid95/PhpComposerInstaller
+
+https://stackoverflow.com/questions/14395239/class-domdocument-not-found
 
 Start:
 

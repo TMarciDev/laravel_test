@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Comment>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Event>
  */
-class CommentFactory extends Factory
+class EventFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -16,9 +16,10 @@ class CommentFactory extends Factory
      */
     public function definition()
     {
+        $types = ['gól', "öngól", "sárga lap", "piros lap"];
         return [
-            "text" => fake()->paragraphs(rand(1, 4), true),
+            "type" => $types[array_rand($types,1)],
+            "minute" => rand(0, 110),
         ];
     }
 }
-// TODO: delete this

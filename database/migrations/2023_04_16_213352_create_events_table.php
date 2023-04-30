@@ -13,24 +13,26 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('comments', function (Blueprint $table) {
+        Schema::create('events', function (Blueprint $table) {
             $table->id();
-            $table->text('text');
+            $table->enum("type", ['gól', "öngól", "sárga lap", "piros lap"]);
+            $table->integer("minute");
 
-            $table->unsignedBigInteger("author_id")->nullable();
-            $table->unsignedBigInteger("item_id")->nullable();
+            $table->unsignedBigInteger("game_id")->nullable();
+            $table->unsignedBigInteger("player_id")->nullable();
+
+            $table
+                ->foreign("game_id")
+                ->references("id")
+                ->on("games")
+                ->onDelete("cascade");
+            $table
+                ->foreign("player_id")
+                ->references("id")
+                ->on("players")
+                ->onDelete("cascade");
+
             $table->timestamps();
-
-            $table
-                ->foreign("author_id")
-                ->references("id")
-                ->on("users")
-                ->onDelete("cascade");
-            $table
-                ->foreign("item_id")
-                ->references("id")
-                ->on("items")
-                ->onDelete("cascade");
         });
     }
 
@@ -41,7 +43,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('comments');
+        Schema::dropIfExists('events');
     }
 };
-// TODO: delete this

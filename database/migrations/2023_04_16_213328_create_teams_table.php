@@ -13,11 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('labels', function (Blueprint $table) {
+        Schema::create('teams', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->boolean('display');
-            $table->string('color');
+            $table->string('shortname');
+            $table->string('image')->nullable();
             $table->timestamps();
         });
     }
@@ -29,7 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('labels');
+        Schema::dropIfExists('teams');
     }
 };
-// TODO: delete this

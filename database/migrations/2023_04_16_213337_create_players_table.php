@@ -13,11 +13,19 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('labels', function (Blueprint $table) {
+        Schema::create('players', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->boolean('display');
-            $table->string('color');
+            $table->integer('number');
+            $table->date('birthdate');
+
+            $table->unsignedBigInteger("team_id")->nullable();
+            $table
+                ->foreign("team_id")
+                ->references("id")
+                ->on("teams")
+                ->onDelete("cascade");
+
             $table->timestamps();
         });
     }
@@ -29,7 +37,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('labels');
+        Schema::dropIfExists('players');
     }
 };
-// TODO: delete this

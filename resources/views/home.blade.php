@@ -1,23 +1,21 @@
 @extends('layouts.app')
+@section('title', 'Home')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Dashboard') }}</div>
-
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                    {{ __('You are logged in!') }}
-                </div>
-            </div>
+    <div clFss="container" style="margin: 10px;  height: 100vh; font-size: 200%">
+        <div style="margin-top: 10px; width: 100%; text-align: center">
+            <h1>Foci app</h1>
+            <p>
+                A feladatod egy fikcionális labdarúgó-bajnokságot kezelő webes alkalmazás elkészítése, ahol böngészhetők és
+                megfelelő jogosultság esetén szerkeszthetők az egyes csapatok és játékosok adatai, illetve a meccsek
+                időpontjai és eseményei.
+            </p>
         </div>
+        <ul>
+            <li><a href="/merkozesek">Mérkőzések</a></li>
+            <li><a href="/csapatok">Csapatok</a></li>
+            <li><a href="/tabella">Tabella</a></li>
+            <li><a href="/kedvenceim">Kedvenceim</a></li>
+        </ul>
     </div>
-</div>
 @endsection

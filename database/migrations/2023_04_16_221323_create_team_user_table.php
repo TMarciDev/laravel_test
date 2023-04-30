@@ -13,24 +13,27 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('comments', function (Blueprint $table) {
+        Schema::create('team_user', function (Blueprint $table) {
             $table->id();
-            $table->text('text');
 
-            $table->unsignedBigInteger("author_id")->nullable();
-            $table->unsignedBigInteger("item_id")->nullable();
-            $table->timestamps();
+            $table->unsignedBigInteger("user_id");
+            $table->unsignedBigInteger("team_id");
+
+
+            $table->unique(["user_id", "team_id"]);
 
             $table
-                ->foreign("author_id")
+                ->foreign("team_id")
+                ->references("id")
+                ->on("teams")
+                ->onDelete("cascade");
+            $table
+                ->foreign("user_id")
                 ->references("id")
                 ->on("users")
                 ->onDelete("cascade");
-            $table
-                ->foreign("item_id")
-                ->references("id")
-                ->on("items")
-                ->onDelete("cascade");
+
+            $table->timestamps();
         });
     }
 
@@ -41,7 +44,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('comments');
+        Schema::dropIfExists('team_user');
     }
 };
-// TODO: delete this

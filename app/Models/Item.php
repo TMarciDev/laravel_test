@@ -19,3 +19,4 @@ class Item extends Model
         return $this->belongsToMany(Label::class)->withTimestamps();
     }
 }
+// TODO: delete this

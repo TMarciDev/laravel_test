@@ -14,8 +14,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // user1@szerveroldali.hu
-        // user2@...
         $users_count = rand(5, 10);
         $users = collect();
         $users->add(
@@ -34,12 +32,64 @@ class DatabaseSeeder extends Seeder
             );
         }
 
+        $teams = \App\Models\Team::factory(rand(10, 20))->create();
+        $players = \App\Models\Player::factory(rand(200, 300))->create();
+        $games = \App\Models\Game::factory(rand(100, 120))->create();
+        $events = \App\Models\Event::factory(rand(400, 500))->create();
+
+        $players->each(function ($player) use (&$teams) {
+            $player
+                ->team()
+                ->associate($teams->random())
+                ->save();
+        });
+
+        $games->each(function ($game) use (&$teams) {
+            $home_team = $teams->random();
+            $away_team = $teams->random();
+            while ($home_team == $away_team) {
+                $away_team = $teams->random();
+            }
+
+            $game
+                ->homeTeam()
+                ->associate($home_team)
+                ->save();
+            $game
+                ->awayTeam()
+                ->associate($away_team)
+                ->save();
+        });
+
+        $events->each(function ($event) use (&$games, &$players) {
+            $randomGame = $games->random();
+            $randomHomePlayer = $randomGame->HomeTeam->Players->random();
+            $randomAwayPlayer = $randomGame->AwayTeam->Players->random();
+            $event
+                ->game()
+                ->associate($randomGame)
+                ->save();
+            $event
+                ->player()
+                ->associate(rand(0, 1) == 1 ? $randomHomePlayer : $randomAwayPlayer)
+                ->save();
+
+        });
+
+        $users->each(function ($user) use (&$teams) {
+            if(rand(1, 10) > 3) {
+                $user
+                ->teams()
+                ->sync($teams->random(rand(1, $teams->count())));
+            }
+        });
+
+        // TODO: delete this
         // ItemFactory:
             $items = \App\Models\Item::factory(rand(10, 20))->create();
         // CommentFactory:
             $comments = \App\Models\Comment::factory(rand(40, 50))->create();
         // LabelFactory:
-            //TODO: 2 way connections
             $labels = \App\Models\Label::factory(rand(9, 10))->create();
         // Connections:
 

@@ -39,4 +39,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Comment::class, "author_id");
     }
+
+    public function teams()
+    {
+        return $this->belongsToMany(Team::class)->withTimestamps();
+    }
 }

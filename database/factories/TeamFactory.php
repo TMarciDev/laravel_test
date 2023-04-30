@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Comment>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Team>
  */
-class CommentFactory extends Factory
+class TeamFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -16,9 +16,11 @@ class CommentFactory extends Factory
      */
     public function definition()
     {
+        $name = fake()->word();
         return [
-            "text" => fake()->paragraphs(rand(1, 4), true),
+            "name" => $name,
+            "shortname" => substr($name, 0, rand(2, 4)),
+            "image" => null,
         ];
     }
 }
-// TODO: delete this

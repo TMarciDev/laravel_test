@@ -19,3 +19,4 @@ class Comment extends Model
         return $this->belongsTo(Item::class, "item_id");
     }
 }
+// TODO: delete this

@@ -13,24 +13,27 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('comments', function (Blueprint $table) {
+        Schema::create('games', function (Blueprint $table) {
             $table->id();
-            $table->text('text');
+            $table->dateTime("start");
+            $table->boolean("finished");
 
-            $table->unsignedBigInteger("author_id")->nullable();
-            $table->unsignedBigInteger("item_id")->nullable();
+            $table->unsignedBigInteger("home_team_id")->nullable();
+            $table->unsignedBigInteger("away_team_id")->nullable();
+
+            $table
+                ->foreign("home_team_id")
+                ->references("id")
+                ->on("teams")
+                ->onDelete("cascade");
+
+            $table
+                ->foreign("away_team_id")
+                ->references("id")
+                ->on("teams")
+                ->onDelete("cascade");
+
             $table->timestamps();
-
-            $table
-                ->foreign("author_id")
-                ->references("id")
-                ->on("users")
-                ->onDelete("cascade");
-            $table
-                ->foreign("item_id")
-                ->references("id")
-                ->on("items")
-                ->onDelete("cascade");
         });
     }
 
@@ -41,7 +44,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('comments');
+        Schema::dropIfExists('games');
     }
 };
-// TODO: delete this

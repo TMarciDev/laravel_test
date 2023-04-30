@@ -95,3 +95,4 @@ class LabelController extends Controller
         return Redirect::route("labels.index");
     }
 }
+//TODO: delete this

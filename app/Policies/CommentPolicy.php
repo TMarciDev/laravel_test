@@ -25,3 +25,4 @@ class CommentPolicy
         return $comment->author_id === $user->id || $user->is_admin;
     }
 }
+// TODO: delete this
