@@ -9,9 +9,6 @@ use App\Models\Event;
 
 // use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
-use App\Models\Label;
-use App\Models\Item;
-use App\Models\Comment;
 
 
 class AuthServiceProvider extends ServiceProvider
@@ -26,10 +23,6 @@ class AuthServiceProvider extends ServiceProvider
         Event::class => EventPolicy::class,
         Game::class => GamePolicy::class,
         Team::class => TeamPolicy::class,
-        // TODO: delete this
-        Label::class => LabelPolicy::class,
-        Item::class => ItemPolicy::class,
-        Comment::class => CommentPolicy::class,
     ];
 
     /**

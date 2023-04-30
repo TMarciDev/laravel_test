@@ -83,38 +83,5 @@ class DatabaseSeeder extends Seeder
                 ->sync($teams->random(rand(1, $teams->count())));
             }
         });
-
-        // TODO: delete this
-        // ItemFactory:
-            $items = \App\Models\Item::factory(rand(10, 20))->create();
-        // CommentFactory:
-            $comments = \App\Models\Comment::factory(rand(40, 50))->create();
-        // LabelFactory:
-            $labels = \App\Models\Label::factory(rand(9, 10))->create();
-        // Connections:
-
-        $comments->each(function ($comment) use (&$users, &$items) {
-            // Szerző hozzáadása
-            $comment
-                ->author()
-                ->associate($users->random())
-                ->save();
-
-            // Kommentelt item hozzárendelése
-            $comment
-                ->item()
-                ->associate($items->random())
-                ->save();
-        });
-
-        $items->each(function ($item) use (&$labels) {
-            // Item-Label pivot kapcsolat hozzáadása
-
-            if(rand(1, 10) > 3) {
-                $item
-                ->labels()
-                ->sync($labels->random(rand(1, $labels->count())));
-            }
-        });
     }
 }

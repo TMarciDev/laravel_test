@@ -21,4 +21,3 @@ class TeamPolicy
     }
 
 }
-// TODO: delete this

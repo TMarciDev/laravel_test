@@ -7,10 +7,6 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MerkozesekController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\TeamController;
-//TODO: delete the this
-use App\Http\Controllers\ItemController;
-use App\Http\Controllers\LabelController;
-use App\Http\Controllers\CommentController;
 
 Route::get("/", function () {
     return redirect()->route("home.index");
@@ -25,10 +21,6 @@ Route::resources([
     "merkozesek" => MerkozesekController::class,
     "events" => EventController::class,
     "teams" => TeamController::class,
-    // TODO: delete this
-    "items" => ItemController::class,
-    "labels" => LabelController::class,
-    "comments" => CommentController::class,
 ]);
 
 
