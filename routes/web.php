@@ -2,12 +2,11 @@
 
 //use App\Models\User;
 
-
-
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MerkozesekController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\TeamController;
 //TODO: delete the this
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\LabelController;
@@ -25,6 +24,7 @@ Route::resources([
     "home" => HomeController::class,
     "merkozesek" => MerkozesekController::class,
     "events" => EventController::class,
+    "teams" => TeamController::class,
     // TODO: delete this
     "items" => ItemController::class,
     "labels" => LabelController::class,

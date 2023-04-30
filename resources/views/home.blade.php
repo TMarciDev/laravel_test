@@ -13,7 +13,7 @@
         </div>
         <ul>
             <li><a href="/merkozesek">Mérkőzések</a></li>
-            <li><a href="/csapatok">Csapatok</a></li>
+            <li><a href="/teams">Csapatok</a></li>
             <li><a href="/tabella">Tabella</a></li>
             <li><a href="/kedvenceim">Kedvenceim</a></li>
         </ul>
